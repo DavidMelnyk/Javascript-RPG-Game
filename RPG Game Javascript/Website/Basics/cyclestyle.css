@@ -1,0 +1,105 @@
+     <!-- Author: David Melnyk #000321728 -->
+<style>
+   * {
+   padding: 0px;
+   margin: 0px;
+   }
+   nav ul {
+   position: relative;
+   text-align: right;
+   list-style-type: none;
+   padding: 0em;
+   margin: 0em;
+   }
+   nav ul li {
+   display: inline-block;
+   border-style: solid;
+   border-color: black;
+   border-top-right-radius: 10px;
+   border-bottom: none;
+   background-color: #bbccdd;
+   color: white;
+   font-weight: bold;
+   padding: 9px;
+   margin-left: 2.0em;
+   }
+   nav ul li a:hover {
+   color: black;
+   }
+   nav ul li a{
+   text-decoration: none;
+   color: white;
+   }
+   .mainbody {
+   margin: 0 10% 0 10%;
+   }
+   .banner {
+   background-image: url('images/cycling_banner.png');
+   width: 100%;
+   background-size: 100% 100%;
+   position: relative;
+   margin: 0px;
+   padding: 0px;
+   }
+   div.banner{
+   text-align: left;
+   height: 40vh;
+   background-repeat: no-repeat;
+   width: 100%;
+   }
+   .banner h1 {
+   position:absolute;
+   top: 10%;
+   left: 20%;
+   font-size: 3em;
+   display: inline;
+   width: 300px;
+   }
+   div.banner h1 a:hover {
+   color: black;
+   }
+   div.banner h1 a {
+   position: absolute;
+   text-decoration: none;
+   color: white;
+   }
+   .column {
+   float: left;
+   width: 85%;
+   }
+   .column figure {
+   float: left;
+   width: 400px;
+   margin-left: 0px;
+   margin-right: 0px;
+   text-align: center;
+   }
+   .column p {
+     padding-right: 8px;
+   }
+   .column2 {
+   background-color: #bbccdd;
+   float: right;
+   display: inline;
+   width: 15%;
+   height: 100vh;
+   }
+   .column2 p {
+   padding: 10px;
+   }
+   .column2 h3 {
+   padding: 5px;
+   }
+   footer {
+   text-align: center;
+   border-top-style: solid;
+   border-top-color: black;
+   clear:both;
+   position: relative;
+   margin-top: 1em;
+   margin-bottom: 3em;
+   }
+   .main {
+   margin-bottom: 15em;
+   }
+</style>

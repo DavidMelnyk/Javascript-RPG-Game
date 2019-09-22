@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <!-- Author: David Melnyk #000321728 -->
+      <link rel="stylesheet" type="text/css" href="apartmentstyle.css">
+      <title> Apartment </title>
+      <style>
+      </style>
+   </head>
+   <body>
+      <div class="bigHeader">
+         <h1> Sandy and Leslie's Apartment </h1>
+         <p> Click a room for a detailed view </p>
+         <a href="apartment.html"> <img src="images/floorplan.jpg" usemap="#floorplan" alt="floor plan"/> </a>
+         <map name="floorplan">
+            <area shape="rect" coords="384,22,555,139" href="bedroom.html" title="Bedroom" alt="Bedroom">
+            <area shape="rect" coords="92,28,256,116" href="kitchen.html" title="Kitchen" alt="kitchen">
+            <area shape="rect" coords="391,142,570,252" href="#" rel="" title="Detail not available for this room" alt="office">
+            <area shape="circle" coords="315,71,61" href="bathroom.html" title="Bathroom" alt="bathroom">
+            <area shape="poly" coords="31,123,202,122,274,196,254,214,254,252,20,252" href="livingroom.html" title="Living Room" alt="living room">
+         </map>
+      </div>
+      <nav>
+         <ul>
+            <li> <a href="apartment.html">Apartment</a></li>
+            <li> <a href="bedroom.html">Bedroom</a></li>
+            <li> <a href="bathroom.html">Bathroom</a></li>
+            <li> <a href="kitchen.html">Kitchen</a></li>
+            <li> <a href="livingroom.html">Living Room</a></li>
+            <li> <a href="#office.html">Office</a></li>
+         </ul>
+      </nav>
+      <section class="mainbody">
+         <div class="Survey">
+            <h1 class="header">
+               Survey
+            </h1>
+            <form method="post">
+               <p>
+                  How did you hear about this apartment? Check any that apply:
+               </p>
+               <label class="select">
+               <input type="radio" value = "x" name="rating" class="radio"/>
+               Web Search
+               </label>
+               <label class="select">
+               <input type="radio" value = "x" name="rating" class="radio"/>
+               Friend
+               </label>
+               <label class="select">
+               <input type="radio" value = "x" name="rating" class="radio"/>
+               Newspaper
+               </label>
+               <br>
+               <br>
+               <input class = "submit" type="submit" value="Submit"/>
+               <input class = "cancel" type="reset" name="Cancel" value="Reset Form"/>
+            </form>
+         </div>
+         <div class="welcome">
+            <h1 class = "header">
+               Welcome Message
+            </h1>
+            <audio controls src="media/apartment.mp3">
+            </audio>
+            <p>
+               Transcript: Hello. Welcome to our apartment. You'll really enjoy living here. The rooms are spacious and the apartment building amenities are fantastic. We look forward to hearing from you!
+            </p>
+         </div>
+         <div class="services">
+            <h1 class="header">
+               Apartment services:
+            </h1>
+            <table class="bigTable">
+               <tr>
+                  <th class="tablehead"> Service </th>
+                  <th class="tablehead"> Days/Hours </th>
+               </tr>
+               <tr>
+                  <th> Gym </th>
+                  <th rowspan = 3> Monday-Friday 6am - 10pm <br> Saturday 8am - 8pm <br> Sunday 8am - 5pm </th>
+               </tr>
+               <tr>
+                  <th> Pool </th>
+               </tr>
+               <tr>
+                  <th> Laundry </th>
+               </tr>
+               <tr>
+                  <th class="coloured" colspan = 2> Please do not allow people you do not know to use these facilities </th>
+               </tr>
+            </table>
+         </div>
+         <div class="location">
+            <h1 class="header">
+               Location
+            </h1>
+            <img src="images/location.png" alt="location"/>
+         </div>
+      </section>
+      <section class="galleryCont">
+         <h2 class="header">
+            Gallery
+         </h2>
+         <section class="gallery">
+            <div class="galleryContainer">
+               <h4 class="subGallery"> Balcony </h4>
+               <img src ="thumbnails/balcony_sm.jpg" alt="balcony"/>
+            </div>
+            <div class="galleryContainer">
+               <h4 class="subGallery"> Bathroom </h4>
+               <img src ="thumbnails/bathroom_sm.jpg" alt="bathroom"/>
+            </div>
+            <div class="galleryContainer">
+               <h4 class="subGallery"> Bedroom </h4>
+               <img src ="thumbnails/bedroom_sm.jpg" alt="bedroom"/>
+            </div>
+            <div class="galleryContainer">
+               <h4 class="subGallery"> Dining Room </h4>
+               <img src ="thumbnails/diningroom_sm.jpg" alt="dining room"/>
+            </div>
+            <div class="galleryContainer">
+               <h4 class="subGallery"> Kitchen </h4>
+               <img src ="thumbnails/kitchen_sm.jpg" alt="kitchen"/>
+            </div>
+            <div class="galleryContainer">
+               <h4 class="subGallery"> Living Room </h4>
+               <img src ="thumbnails/livingroom_sm.jpg" alt="living room"/>
+            </div>
+         </section>
+      </section>
+      <a href ="../index.html">
+         <p> Index </p>
+      </a>
+   </body>
+</html>

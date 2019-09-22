@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <!-- Author: David Melnyk #000321728 -->
+      <link rel="stylesheet" type="text/css" href="cyclestyle.css">
+      <title> Cycling Tours </title>
+      <style>
+         .bigtable table, th, td {
+         border: 1px solid black;
+         }
+         .bigtable {
+         border-collapse: collapse;
+         height: 50vh;
+         padding-bottom: 1em;
+         }
+         .bigtable caption {
+         text-align: right;
+         position: relative;
+         top:445px;
+         }
+         #header {
+         background-color: #888888;
+         color: white;
+         }
+         .Legend th {
+         border: none;
+         }
+         .dust {
+         background-image: url('images/dust.jpg')
+         }
+         .day {
+         background-color: #ddeeff;
+         }
+         .long {
+         background-color: #ADFF2F;
+         text-align: left;
+         }
+         .beginner {
+         background-color: lightskyblue;
+         text-align: left;
+         }
+         .repair {
+         background-color: #BA55D3;
+         text-align: left;
+         }
+         .planning {
+         background-color: #FFB6C1;
+         text-align: left;
+         }
+         .longt {
+         background-color: #ADFF2F;
+         text-align: left;
+         width: 2%;
+         }
+         .beginnert {
+         background-color: lightskyblue;
+         text-align: left;
+         width: 2%;
+         }
+         .repairt {
+         background-color: #BA55D3;
+         text-align: left;
+         width: 2%;
+         }
+         .planningt {
+         background-color: #FFB6C1;
+         text-align: left;
+         width: 2%;
+         }
+         .Main p {
+         margin-bottom: 0px;
+         }
+      </style>
+   </head>
+   <body>
+      <section class="mainbody">
+         <nav>
+            <ul>
+               <li><a href="aboutus.html">About Us</a></li>
+               <li><a href="#">Ask us</a></li>
+               <li><a href="#">Destinations</a></li>
+               <li><a href="#">FAQ</a></li>
+               <li><a href="reviews.html">Reviews</a></li>
+               <li><a href="seminars.html">Seminars</a></li>
+               <li><a href="#">Trip Prep</a></li>
+            </ul>
+         </nav>
+         <div class = "banner">
+            <h1> <a href="https://google.ca"> Cycling Tours </a> </h1>
+         </div>
+         <div class="Main">
+            <p> Legend </p>
+            <table class="Legend">
+               <tr>
+                  <th class = "beginnert"> </th>
+                  <th> Beginner Cycling </th>
+                  <th class = "longt"> </th>
+                  <th> Long distance Cycling</th>
+                  <th class = "repairt"> </th>
+                  <th> Bicycle Repair </th>
+                  <th class = "planningt"> </th>
+                  <th> Trip Planning </th>
+               </tr>
+            </table>
+            <table class="bigtable">
+               <caption>
+                  Schedule is subject to change
+               </caption>
+               <tr class=header>
+                  <th> Day </th>
+                  <th> 7 am - 9 am </th>
+                  <th> 9 am - 11 am</th>
+                  <th> 11 am - 12 pm</th>
+                  <th> 12 pm - 2 pm</th>
+                  <th> 2 pm - 4 pm</th>
+                  <th> 6 pm - 8 pm</th>
+                  <th> 8pm - 10pm</th>
+               </tr>
+               <tr>
+                  <th class = "day"> Monday</th>
+                  <th colspan = 7 class = "dust"> Reserved for groups</th>
+               </tr>
+               <tr>
+                  <th class = "day"> Tuesday</th>
+                  <th class = "repair"> Bicycle Repair</th>
+                  <th colspan = 4 class = "beginner"> Beginner Cycling</th>
+                  <th colspan = 2 class = "planning"> Trip Planning</th>
+               </tr>
+               <tr>
+                  <th class = "day"> Wednesday</th>
+                  <th rowspan = 2 class = "long"> Long Distance Cycling Part 1</th>
+                  <th> </th>
+                  <th class="beginner"> Beginner Cycling </th>
+                  <th rowspan = 2 class = "planning"> Trip Planning for Asia</th>
+                  <th rowspan = 3 colspan = 2 class = "repair"> Bicycle Repair</th>
+                  <th rowspan = 2 class = "long"> Long Distance Cycling Part 2</th>
+               </tr>
+               <tr>
+                  <th class="day"> Thursday </th>
+                  <th class="beginner"> Beginner Cycling</th>
+                  <th> </th>
+                  <th> </th>
+               </tr>
+               <tr>
+                  <th class = "day"> Friday</th>
+                  <th rowspan = 4 class="planning"> Trip Planning for Europe </th>
+                  <th> </th>
+                  <th class = "beginner">
+                     Beginner Cycling
+                  </th>
+                  <th> </th>
+                  <th> </th>
+               </tr>
+               <tr>
+                  <th class = "day"> Saturday</th>
+                  <th rowspan = 2 colspan = 3 class="repair"> Bicycle Repair</th>
+                  <th class = "beginner"> Beginner Cycling</th>
+                  <th rowspan = 2 colspan = 2 class="long"> Long Distance Cycling Part 1 and 2 </th>
+               </tr>
+               <tr>
+                  <th class = "day"> Sunday</th>
+               </tr>
+               <tr>
+                  <th class = "day"> Holidays</th>
+                  <th class="long"> Long Distance Cycling</th>
+                  <th colspan = 5 class= "dust"> No Seminars</th>
+               </tr>
+            </table>
+         </div>
+         <footer>
+            <p> Cycling Tours P.O Box 4455 Brantford, ON N3T 2J0 </p>
+            <p> Image credit: http://www.bikelink.com/images/banner01.jpg </p>
+         </footer>
+      </section>
+      <a href ="../index.html">
+         <p> Index </p>
+      </a>
+   </body>
+</html>

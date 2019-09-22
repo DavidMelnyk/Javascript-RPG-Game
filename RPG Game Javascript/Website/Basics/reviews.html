@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <!-- Author: David Melnyk #000321728 -->
+      <link rel="stylesheet" type="text/css" href="cyclestyle.css">
+      <title> Cycling Tours </title>
+      <style>
+         .container {
+         background-color: #4681A4;
+         }
+         .formbackground {
+         background-color: #ffffe6;
+         }
+         .child {
+         margin: 2em;
+         }
+         .child textarea {
+         width: 500px;
+         height: 100px;
+         }
+         .fieldset {
+         border: 2px white solid;
+         margin-top: 1em;
+         }
+         .fieldset legend {
+         color: white;
+         }
+         .fieldset p {
+         margin: 0;
+         padding: 0;
+         }
+         .name {
+           display: inline-block;
+           text-align: right;
+           width: 200px;
+         }
+         .email {
+           display: inline-block;
+           text-align: right;
+           width: 200px;
+         }
+         .phone {
+           display: inline-block;
+           text-align: right;
+           width: 200px;
+         }
+         .Main h3 {
+         margin-top: 0;
+         }
+         .wheels {
+         display: inline;
+         margin: 0;
+         padding: 0;
+         }
+         .radio {
+         display: inline;
+         }
+         .submit {
+         background-color: #ffffe6;
+         position: relative;
+         bottom: 1em;
+         left: 2.4%;
+         width: 110px;
+         height: 30px;
+         font-weight: bold;
+         }
+         .cancel {
+         background-color: #ffffe6;
+         position: relative;
+         bottom: 1em;
+         left: 3.6%;
+         width: 70px;
+         height: 30px;
+         font-weight: bold;
+         }
+      </style>
+   </head>
+   <body>
+      <section class="mainbody">
+         <nav>
+            <ul>
+               <li><a href="aboutus.html">About Us</a></li>
+               <li><a href="#">Ask us</a></li>
+               <li><a href="#">Destinations</a></li>
+               <li><a href="#">FAQ</a></li>
+               <li><a href="reviews.html">Reviews</a></li>
+               <li><a href="seminars.html">Seminars</a></li>
+               <li><a href="#">Trip Prep</a></li>
+            </ul>
+         </nav>
+         <div class = "banner">
+            <h1> <a href="https://google.ca"> Cycling Tours </a> </h1>
+         </div>
+         <div class="Main">
+            <h2> Fall 2018 reviews </h2>
+            <form action="https://csunix.mohawkcollege.ca/tooltime/showit.pl" method="post">
+               <input type="hidden" name="formname" value="David Melnyk Trip Review" />
+               <div class="container">
+                  <div class="child">
+                     <fieldset class="fieldset">
+                        <legend> About You (optional) </legend>
+                        <p>
+                           I usually prefer to take trips this time of year (Select all that apply)
+                        </p>
+                        <select name="pref" size="4" multiple>
+                           <option value="winter"> Winter </option>
+                           <option value="spring"> Spring </option>
+                           <option value="summer"> Summer </option>
+                           <option value="fall"> Fall </option>
+                        </select>
+                        <br>
+                        <label class="name"> First Name: </label>
+                        <input type="text" name="firstname" class="formbackground" maxlength ="20"/> <br>
+                        <label class="name"> Last Name: </label>
+                        <input type="text" name="lastname" class="formbackground" maxlength = "20"/> <br>
+                        <label class="phone"> Phone Number: </label>
+                        <input type="text" name="phonenumber" class="formbackground" maxlength = "12" placeholder="123-456-7890"/> <br>
+                        <label class="email"> E-Mail: </label>
+                        <input type="email" name="email" class="formbackground" maxlength = "40" placeholder="name@example.com"/> <br>
+                     </fieldset>
+                  </div>
+                  <div class="child">
+                     <fieldset class="fieldset">
+                        <legend> Trip Reviews </legend>
+                        <select name="trails">
+                           <option value="novascotia">Nova Scotia Cabot Trail</option>
+                           <option value="PEI">PEI</option>
+                           <option value="Lake Superior">Ontario Lake Superior</option>
+                           <option value="B.C. Coast">B.C. Coast</option>
+                           <option value="Alberta">Alberta Rural</option>
+                        </select>
+                        <select name="duration">
+                           <option value="5d">5 Days</option>
+                           <option value="7d">7 Days</option>
+                           <option value="10d">10 Days</option>
+                           <option value="14d">14 Days</option>
+                        </select>
+                        <br>
+                        Your rating: <br>
+                        <img src="images/wheel_sm.jpg" alt="wheel.jpg"/>
+                        <img src="images/wheel_sm.jpg" alt="wheel.jpg"/>
+                        <img src="images/wheel_sm.jpg" alt="wheel.jpg"/>
+                        <img src="images/wheel_sm.jpg" alt="wheel.jpg"/>
+                        <input type="radio" value = "4" name="rating" class="radio"/> <br>
+                        <img src="images/wheel_sm.jpg" alt="wheel.jpg"/>
+                        <img src="images/wheel_sm.jpg" alt="wheel.jpg"/>
+                        <img src="images/wheel_sm.jpg" alt="wheel.jpg"/>
+                        <input type="radio" value = "3" name="rating" class="radio"/> <br>
+                        <img src="images/wheel_sm.jpg" alt="wheel.jpg"/>
+                        <img src="images/wheel_sm.jpg" alt="wheel.jpg"/>
+                        <input type="radio" value = "2" name="rating" class="radio"/> <br>
+                        <img src="images/wheel_sm.jpg" alt="wheel.jpg"/>
+                        <input type="radio" value = "1" name="rating" class="radio"/>  <br>
+                        <p> Comments </p>
+                        <textarea name="Comments" placeholder="Enter Text Here..."></textarea>
+                     </fieldset>
+                  </div>
+                  <div class="child">
+                     <fieldset class="fieldset">
+                        <legend> I would be interested in these trips: (check all that apply) </legend>
+                        <input type="checkbox" name="interested" value="Sea"/> Sea or Lake Coast <br>
+                        <input type="checkbox" name="interested" value="Rural"/> Rural <br>
+                        <input type="checkbox" name="interested" value="Mountains" checked/> Mountains <br>
+                        <input type="checkbox" name="interested" value="Other"/> Other (please specify)
+                        <input type="text" name="otherdestination"/>  <br>
+                     </fieldset>
+                  </div>
+                  <input class = "submit" type="submit" value="SEND REVIEW"/>
+                  <input class = "cancel" type="reset" name="Cancel" value="CANCEL"/>  <br>
+               </div>
+            </form>
+         </div>
+         <footer>
+            <p> Cycling Tours P.O Box 4455 Brantford, ON N3T 2J0 </p>
+            <p> Image credit: http://www.bikelink.com/images/banner01.jpg </p>
+         </footer>
+      </section>
+      <a href ="../index.html">
+         <p> Index </p>
+      </a>
+   </body>
+</html>
