@@ -108,7 +108,7 @@ let GameManager = {
    </span>` +
             `` +
             // Creating the entirety of the Stat Panel including the visuals
-            ' <div id="statPanel"> <img id ="playerAvatar" src="img/avatars/' + player.classType.toLowerCase() + '.png"> <img id = "playerFrameHealthBar" src = "img/UI/playerFrameHealthBar.png"> <img id = "playerFrameExperienceBar" src = "img/UI/playerFrameExperienceBar.png">  <img id ="playerFrameSkeleton" src="img/UI/playerFrameSkeleton.png"> <p id="playerFrameLevelNumber">' + player.level + ' </p> <img id ="playerFrameLevelCircle" src="img/UI/playerFrameLevel.png"> <h2 class="player-name">' + player.name + '</h2> <h3 class="player-level"> Level ' + player.level + " " + player.classType + '</h3> <p class="player-health">Health: ' + player.health + '/' + player.maxHealth + '</p> </p> <p id="player-armor"> Armor: ' + player.armor + ' </p> <p class="player-exp">Exp: ' + player.experience + '/' + player.reqExp + ' <p id="player-vitality"> Vitality: ' + player.vitality + '</p> <p id="player-strength">Strength: ' + player.strength + '</p> <p id="player-agility">Agility: ' + player.agility + '</p> <p id="player-intellect">Intellect: ' + player.intellect + '</p> <p>Speed: ' + player.speed + '</p> </div> <span id = "abilityPane"> <img src="img/UI/actionBar.png">  </span>';
+            ' <div id="statPanel"> <img class ="playerAvatar" src="img/avatars/' + player.classType.toLowerCase() + '.png"> <img id = "playerFrameHealthBar" src = "img/UI/playerFrameHealthBar.png"> <img id = "playerFrameExperienceBar" src = "img/UI/playerFrameExperienceBar.png">  <img class ="playerFrameSkeleton" src="img/UI/playerFrameSkeleton.png"> <p class="playerFrameLevelNumber">' + player.level + ' </p> <img id ="playerFrameLevelCircle" src="img/UI/playerFrameLevel.png"> <h2 class="player-name">' + player.name + '</h2> <h3 class="player-level"> Level ' + player.level + " " + player.classType + '</h3> <p class="player-health">Health: ' + player.health + '/' + player.maxHealth + '</p> <p id="player-armor"> Armor: ' + player.armor + ' </p> <p class="player-exp">Exp: ' + player.experience + '/' + player.reqExp + ' <p id="player-vitality"> Vitality: ' + player.vitality + '</p> <p id="player-strength">Strength: ' + player.strength + '</p> <p id="player-agility">Agility: ' + player.agility + '</p> <p id="player-intellect">Intellect: ' + player.intellect + '</p> <p id="player-gold">Gold: ' + player.gold + '</p> </div> <span id = "abilityPane"> <img src="img/UI/actionBar.png">  </span>';
 
         // |||||| VISUAL UPDATES FOR INVENTORY AND EQUIPMENT ||||||
         // The update UI Function is called.
@@ -124,31 +124,43 @@ let GameManager = {
         let getActions = document.querySelector(".actionButton");
         let getArena = document.querySelector(".actionButton");
         getHeader.innerHTML = '<p> Task: Find an enemy! </p>';
-        getActions.innerHTML = '<a href="#" class="btn-prefight" onclick="GameManager.setFight()"> Find an enemy! </a>';
+        getActions.innerHTML = '<a href="#" class="btn-prefight" onclick="GameManager.setFight(player.location)"> Find an enemy! </a>' +
+        '<a href="#" class="btn-prefight" onclick="playerHeal()"> Heal! </a>' +
+        '<a href="#" class="btn-prefight" onclick="GameManager.setFight(player.location + 1)"> Fight the Boss </a>' +
+        '<a href="#" class="btn-prefight" onclick="buyPotion()"> Purchase a Potion </a>';
     },
 
     // ||||| Setting up the FIGHT MENU for the player after the find enemy button is clicked. |||||
 
-    setFight: function() {
+    setFight: function(bossFight) {
         let getHeader = document.querySelector('#header');
         let getActions = document.querySelector('.actionButton');
         let getEnemy = document.querySelector('#enemyDisplay');
-
-
+        player.location = bossFight;
         // Creating monsters to fight. (enemyType, strength, agility, intellect, vitality, expGive, gold)
-        let enemy00 = new Enemy("Gnoll", 10, 10, 0, 7, 6, 4);
-        let enemy01 = new Enemy("Wolf", 5, 10, 0, 8, 7, 2);
-        let enemy02 = new Enemy("Goblin", 10, 5, 5, 10, 8, 5);
-        let enemy03 = new Enemy("Bandit", 10, 15, 5, 10, 8, 9);
-        let enemy04 = new Enemy("Bear", 15, 5, 0, 15, 15, 5);
-        let boss01 = new Enemy("Forest Troll", 25, 15, 0, 10, 35, 19);
-        // End of Act 1
-        let enemy05 = new Enemy("Gnoll", 10, 10, 0, 7, 6, 4);
-        let enemy06 = new Enemy("Wolf", 5, 10, 0, 8, 7, 2);
-        let enemy07 = new Enemy("Goblin", 10, 5, 5, 10, 8, 5);
-        let enemy08 = new Enemy("Bandit", 10, 15, 5, 10, 8, 9);
-        let enemy09 = new Enemy("Bear", 15, 5, 0, 15, 15, 5);
+        // The Forest
+        let enemy00 = new Enemy("Gnoll", random(1, 3), 10, 10, 0, 7, 6, 4);
+        let enemy01 = new Enemy("Wolf", random(1, 3), 5, 10, 0, 8, 7, 2);
+        let enemy02 = new Enemy("Goblin", random(1, 4), 10, 5, 5, 10, 8, 5);
+        let enemy03 = new Enemy("Bandit", random(1, 4), 10, 15, 5, 10, 8, 9);
+        let enemy04 = new Enemy("Bear", random(1, 5), 15, 5, 0, 15, 15, 5);
+        let boss01 = new Enemy("Forest Troll", 7, 25, 15, 0, 20, 35, 19);
+        // The Mountains
+        let enemy05 = new Enemy("Escaped Convinct", random(3, 6), 15, 10, 0, 15, 6, 4);
+        let enemy06 = new Enemy("Alzahz Assassin", random(4, 6), 20, 10, 0, 8, 20, 2);
+        let enemy07 = new Enemy("Mountain Scorpion", random(5, 8), 13, 5, 5, 10, 17, 5);
+        let enemy08 = new Enemy("Alzahz Myrmidon", random(7, 9), 30, 15, 5, 10, 19, 9);
+        let enemy09 = new Enemy("The Unhinged", random(5, 10), 15, 5, 0, 20, 15, 5);
+        let boss02 = new Enemy("Syzzlac, The Gatekeeper", 15, 30, 15, 0, 50, 35, 19);
+        // The Monastery
+        let enemy10 = new Enemy("Summoned Horror", random(5, 10), 10, 10, 0, 7, 6, 4);
+        let enemy11 = new Enemy("Alzahz Priest", random(6, 15), 5, 10, 0, 8, 7, 2);
+        let enemy12 = new Enemy("Alzahz Warrior", random(9, 15), 10, 5, 5, 10, 8, 5);
+        let enemy13 = new Enemy("Dreadhound", random(15, 19), 10, 15, 5, 10, 8, 9);
+        let enemy14 = new Enemy("Alzahz Royal Guard", random(18, 22), 15, 5, 0, 15, 15, 5);
+        let boss03 = new Enemy("Dakkanar, The Crypt Dread", 25, 25, 15, 0, 10, 35, 19);
         let chooseRandomEnemy = Math.floor(Math.random() * Math.floor(5));
+        if (player.location == 0) {
         switch (chooseRandomEnemy) {
             case 0:
                 enemy = enemy00;
@@ -166,15 +178,68 @@ let GameManager = {
                 enemy = enemy04;
                 break;
         }
+      }
+        if (player.location == 2) {
+          switch (chooseRandomEnemy) {
+              case 0:
+                  enemy = enemy05;
+                  break;
+              case 1:
+                  enemy = enemy06;
+                  break;
+              case 2:
+                  enemy = enemy07;
+                  break;
+              case 3:
+                  enemy = enemy08;
+                  break;
+              case 4:
+                  enemy = enemy09;
+                  break;
+          }
+        }
+        if (player.location == 4) {
+          switch (chooseRandomEnemy) {
+              case 0:
+                  enemy = enemy10;
+                  break;
+              case 1:
+                  enemy = enemy11;
+                  break;
+              case 2:
+                  enemy = enemy12;
+                  break;
+              case 3:
+                  enemy = enemy13;
+                  break;
+              case 4:
+                  enemy = enemy14;
+                  break;
+          }
+        }
+        if (player.location == 1) {
+          enemy = boss01;
+          player.location += 1;
+        }
+        if (player.location == 3) {
+          enemy = boss02;
+          player.location += 1;
+        }
+        if (player.location == 5) {
+          enemy = boss03;
+          player.location += 1;
+        }
+
 
         // The simple HEADER for the page.
         getHeader.innerHTML = '<p>Location: The Forest</p>';
 
         // Setting up PLAYER UI to fight with buttons.
-        getActions.innerHTML = '<a href="#" class="btn-prefight" onclick="PlayerMoves.calcAttack()"> Attack! </a>';
+        getActions.innerHTML = '<a href="#" class="btn-prefight" onclick="PlayerMoves.calcAttack()"> Attack! </a>' +
+                '<a href="#" id="btn-potion" onclick="usePotion()"> Use a potion! ' + player.potions + ' </a>';
 
         // Setting up ENEMY STATSHEET
-        getEnemy.innerHTML = '<div id="enemyStatPanel"> <img id ="playerAvatar" src="img/avatars/enemyAvatar/' + enemy.enemyType.toLowerCase() + '.jpg"> <img id ="playerFrameLevelCircle" src="img/UI/playerFrameLevel.png"> <img id = "enemyVisualHealthBar" src = "img/UI/playerFrameHealthBar.png"> <img id ="playerFrameSkeleton" src="img/UI/playerFrameSkeleton.png"> <h3>' + enemy.enemyType + '</h3><p class="enemy-health"> Health: ' + enemy.health + '/' + enemy.maxHealth + ' </p><p>Strength: ' + enemy.strength + '</p> <p>Agility: ' + enemy.agility + '</p> <p>Intellect: ' + enemy.intellect + '</p> <p>Speed: ' + enemy.speed + '</p> </div>';
+        getEnemy.innerHTML = '<div id="enemyStatPanel"> <img class ="playerAvatar" src="img/avatars/enemyAvatar/' + enemy.enemyType.toLowerCase() + '.jpg"> <img id ="playerFrameLevelCircle" src="img/UI/playerFrameLevel.png"> <img id = "enemyVisualHealthBar" src = "img/UI/playerFrameHealthBar.png"> <img class ="playerFrameSkeleton" src="img/UI/playerFrameSkeleton.png"> <p class="playerFrameLevelNumber">' + enemy.level + ' </p> <h3>' + enemy.enemyType + '</h3><p class="enemy-health"> Health: ' + enemy.health + '/' + enemy.maxHealth + ' </p><p>Strength: ' + enemy.strength + '</p> <p>Agility: ' + enemy.agility + '</p> <p>Intellect: ' + enemy.intellect + '</p> <p>Speed: ' + enemy.speed + '</p> </div>';
 
     },
 };
@@ -190,11 +255,13 @@ function updateUI() {
     $("#playerFrameHealthBar").css("width", (player.health / player.maxHealth) * 209);
     $("#playerFrameExperienceBar").css("width", (player.experience / player.reqExp) * 209);
     $(".player-health").html('Health: ' + player.health + '/' + player.maxHealth);
+    $("#btn-potion").html('Use a potion! ' + player.potions);
     $("#player-armor").html('Armor: ' + player.armor);
     $("#player-strength").html('Strength: ' + player.strength);
     $("#player-vitality").html('Vitality: ' + player.vitality);
     $("#player-agility").html('Agility: ' + player.agility);
     $("#player-intellect").html('Intellect: ' + player.intellect);
+    $("#player-gold").html("Gold: " + player.gold);
     if (enemy) {
         $(".enemy-health").html('Health: ' + enemy.health + '/' + enemy.maxHealth);
         $("#enemyVisualHealthBar").css("width", (enemy.health / enemy.maxHealth) * 209);
@@ -288,4 +355,10 @@ function updateInventory() {
             $("#i" + g).html(" ");
         }
     }
+}
+
+function random(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 }

@@ -93,7 +93,7 @@ body {
   color: #f8b700;
 }
 
-.btn-prefight {
+.btn-prefight, #btn-potion {
   width: 100% !important;
 }
 
@@ -128,6 +128,14 @@ body {
 
 .actionButton a:hover {
   opacity: 0.9;
+}
+
+.player-health {
+  display: inline;
+}
+
+.player-potions {
+  display: inline;
 }
 
 /* Start of the Player's Inventory CSS Slots. */
@@ -269,18 +277,20 @@ body {
   border: 2px solid #BF942C;
 }
 
-#playerFrameSkeleton {
-  width: 350px;
-  height: 150px;
-  z-index: 0;
+.playerFrameSkeleton {
+  position: relative;
+  width: 350px !important;
+  height: 150px !important;
+  z-index: 1;
 }
 
-#playerAvatar {
-  position: absolute;
+.playerAvatar {
+  position: absolute !important;
   top: 15px;
   width: 120px;
   height: 120px;
   left: 22px;
+  z-index: 0;
 }
 
 #playerFrameHealthBar {
@@ -299,10 +309,10 @@ body {
   left: 133px;
 }
 
-#playerFrameLevelNumber {
+.playerFrameLevelNumber {
   position: absolute;
-  color: #BF942C;
-  font-size: 1.5em;
+  color: #BF942C !important;
+  font-size: 1.5em !important;
   left: 113px;
   top: 115px;
   z-index: 1;

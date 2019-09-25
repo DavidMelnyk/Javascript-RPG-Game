@@ -5,13 +5,14 @@ enemies attributes and enemy attack.
 
 let enemy;
 // Creating the enemy class.
-function Enemy(enemyType, strength, agility, intellect, vitality, expGive, gold) {
+function Enemy(enemyType, level, strength, agility, intellect, vitality, expGive, gold) {
     this.enemyType = enemyType;
+    this.level = level;
     // Defining the the primary stats. These stats will modify the secondary stats.
-    this.strength = strength;
-    this.agility = agility;
-    this.intellect = intellect;
-    this.vitality = vitality;
+    this.strength = Math.floor(strength + (this.level * 1.1 * strength/8));
+    this.agility = Math.floor(agility + (this.level * 1.1 * agility/8));
+    this.intellect = Math.floor(intellect + (this.level * 1.1 * intellect/8));
+    this.vitality = Math.floor(vitality + (this.level * 1.1 * vitality/8));
     // Defining the secondary stats. These values are modified by the first.
     this.health = 5 * this.vitality;
     this.maxHealth = this.health;

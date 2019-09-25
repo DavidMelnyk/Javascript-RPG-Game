@@ -48,13 +48,18 @@ function Player(classType, name, strength, agility, intellect, vitality ) {
     this.trinket = {};
     this.belt = {};
     this.transfer = {};
+
+    this.gold = 10;
+    this.potions = 0;
+    this.location = 0;
   }
 
 // ||||||| This Function gives the player experience and determines if the play should level up. |||||||||
 function gainExp(expGive) {
   let modifyPlayerExp = document.querySelector('.player-exp');
-  alert("Exp has been gained!");
+  alert("You have gained " + expGive + " experience and " + enemy.gold + " gold!");
   player.experience += expGive;
+  player.gold += enemy.gold;
   modifyPlayerExp.innerHTML = 'Exp:' + player.experience + '/' + player.reqExp + '';
   if (player.experience >= player.reqExp) {
      alert("You have leveled up!");
@@ -70,6 +75,28 @@ function gainExp(expGive) {
 function statIncrease() {
   if(player.statPoints >= 0) {
     player.statPoints -= 1;
+  }
+}
+
+function buyPotion() {
+  if(player.gold > 10) {
+    alert("You have purchased a potion!");
+    player.potions += 1;
+    player.gold -= 10;
+    updateUI();
+  } else {
+    alert("You do not have enough money!");
+  }
+}
+
+function usePotion() {
+  if (player.potions > 0) {
+    player.potions -= 1;
+    player.health += 25;
+    if(player.health > player.maxHealth) {
+      player.health = player.maxHealth;
+    }
+    updateUI();
   }
 }
 
@@ -98,6 +125,12 @@ function statIncrease() {
     return finalOverallDamageArray;
   };
 
+  let playerHeal = function() {
+    alert("You have been healed!");
+    player.health = player.maxHealth;
+    updateUI();
+  };
+
 // ||||||| This object serves as a means of damaging the enemy. |||||||||
       let PlayerAbilities = {
 
@@ -116,13 +149,15 @@ function statIncrease() {
         eviscerate: {
           name: "eviscerate",
           nameid: "#eviscerate",
-          damage: 30,
+          damage: 100,
+          resourceCost: 15,
         },
 
         rupture: {
           name: "rupture",
           nameid: "#rupture",
           damage: 30,
+          resourceCost: 25,
         },
 
         calcAttack: function() {

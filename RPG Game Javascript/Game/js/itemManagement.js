@@ -31,6 +31,13 @@ function createItem() {
         affixSlots = 4;
     }
 
+    let possibleAffixes = [
+     {name: "Strength", value: random(Math.floor(1 + enemy.level/2), enemy.level*2)},
+     {name: "Agility", value: random(Math.floor(1 + enemy.level/2), enemy.level*2) },
+     {name: "Vitality", value: random(Math.floor(1 + enemy.level/2), enemy.level*2) },
+     {name: "Intellect", value: random(Math.floor(1 + enemy.level/2), enemy.level*2)},
+    ];
+
     // Attributes of the object
     item = {}; // Blank Item
     item.type = itemIconName; // Item Type
@@ -51,7 +58,7 @@ function createItem() {
 
     // For Loop to generate and append affixes onto the object
     for (var i = 0; i < affixSlots; i++) {
-        randomAffix = Math.floor(Math.random() * Math.floor(4));
+        randomAffix = Math.floor(random(0, 3));
         item.affixes.push(possibleAffixes[randomAffix]);
     }
     // For loop to iterate through the inventory and add it to a

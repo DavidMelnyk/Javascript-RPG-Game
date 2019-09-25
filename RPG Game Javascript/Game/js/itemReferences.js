@@ -1,15 +1,7 @@
 /** David Melnyk Revised 2019/08/06
-This module serves as the reference for itemManagement. It holds values for the
-minimum and maximum values an affix can take on an item, as well as all possible slot slotNames
+This module serves as the reference for itemManagement. All possible slot slotNames
 and rarities of that item. The Inventory of the player is also located here.
 **/
-
-const possibleAffixes = [
- {name: "Strength", value: 5 + (Math.floor(Math.random() * Math.floor(12)))},
- {name: "Agility", value: 5 + (Math.floor(Math.random() * Math.floor(12)))},
- {name: "Vitality", value: 5 + (Math.floor(Math.random() * Math.floor(12)))},
- {name: "Intellect", value: 5 + (Math.floor(Math.random() * Math.floor(12)))},
-];
 
 // A list of possible rarities the item could be.
 var rarities = ["Regular", "Uncommon", "Rare", "Epic", "Legendary"];
