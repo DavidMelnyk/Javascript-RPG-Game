@@ -265,7 +265,7 @@ body {
   position: absolute;
 }
 
-/* Start of the Player's HUD Slots. */
+/* Start of the Player's HUD. */
 
 
 #statPanel {
@@ -301,6 +301,14 @@ body {
   left: 152px;
 }
 
+#playerFrameManaBar {
+    position: absolute;
+    width: 209px;
+    height: 25px;
+    top: 76px;
+    left: 152px;
+}
+
 #playerFrameExperienceBar {
   position: absolute;
   width: 0px;
@@ -325,6 +333,15 @@ body {
   height: 50px;
   left: 95px;
   z-index: 0;
+}
+
+#increaseVitalityButton, #increaseStrengthButton, #increaseAgilityButton, #increaseIntellectButton {
+  position: relative;
+  width: 15px;
+  height: 15px;
+  top: -105px;
+  left: 70px;
+  margin-top: 6px;
 }
 
 /* Start of the enemy's stat panels */

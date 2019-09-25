@@ -101,14 +101,19 @@ let GameManager = {
      </span>
      <img src="js/miscImages/inventory.png">
      <span id="inventyButtonBox">
-     <button class ="inventoryButton" type="button" onclick="equipItem()"> Equip </button>
-     <button class ="inventoryButton" type="button" onclick="unequipItem()"> Unequip </button>
-     <button class ="inventoryButton" type="button" onclick="deleteItem()"> Delete </button>
      </span>
    </span>` +
-            `` +
+   `<button class ="inventoryButton" type="button" onclick="equipItem()"> Equip </button>
+   <button class ="inventoryButton" type="button" onclick="unequipItem()"> Unequip </button>
+   <button class ="inventoryButton" type="button" onclick="deleteItem()"> Delete </button> ` +
             // Creating the entirety of the Stat Panel including the visuals
-            ' <div id="statPanel"> <img class ="playerAvatar" src="img/avatars/' + player.classType.toLowerCase() + '.png"> <img id = "playerFrameHealthBar" src = "img/UI/playerFrameHealthBar.png"> <img id = "playerFrameExperienceBar" src = "img/UI/playerFrameExperienceBar.png">  <img class ="playerFrameSkeleton" src="img/UI/playerFrameSkeleton.png"> <p class="playerFrameLevelNumber">' + player.level + ' </p> <img id ="playerFrameLevelCircle" src="img/UI/playerFrameLevel.png"> <h2 class="player-name">' + player.name + '</h2> <h3 class="player-level"> Level ' + player.level + " " + player.classType + '</h3> <p class="player-health">Health: ' + player.health + '/' + player.maxHealth + '</p> <p id="player-armor"> Armor: ' + player.armor + ' </p> <p class="player-exp">Exp: ' + player.experience + '/' + player.reqExp + ' <p id="player-vitality"> Vitality: ' + player.vitality + '</p> <p id="player-strength">Strength: ' + player.strength + '</p> <p id="player-agility">Agility: ' + player.agility + '</p> <p id="player-intellect">Intellect: ' + player.intellect + '</p> <p id="player-gold">Gold: ' + player.gold + '</p> </div> <span id = "abilityPane"> <img src="img/UI/actionBar.png">  </span>';
+            ' <div id="statPanel">  <img class ="playerAvatar" src="img/avatars/' + player.classType.toLowerCase() + '.png"> <img id = "playerFrameHealthBar" src = "img/UI/playerFrameHealthBar.png">  <img id = "playerFrameManaBar" src = "img/UI/playerFrameManaBar.png"> <img id = "playerFrameExperienceBar" src = "img/UI/playerFrameExperienceBar.png">  <img class ="playerFrameSkeleton" src="img/UI/playerFrameSkeleton.png"> <p class="playerFrameLevelNumber">' + player.level + ' </p> <img id ="playerFrameLevelCircle" src="img/UI/playerFrameLevel.png"> <h2 class="player-name">' + player.name + '</h2> <h3 class="player-level"> Level ' + player.level + " " + player.classType + '</h3> <p class="player-health">Health: ' + player.health + '/' + player.maxHealth + '</p> <p id="player-armor"> Armor: ' + player.armor + ' </p> <p class="player-exp">Exp: ' + player.experience + '/' + player.reqExp + ' <p id="player-vitality"> Vitality: ' + player.vitality + '</p> <p id="player-strength">Strength: ' + player.strength + '</p> <p id="player-agility">Agility: ' + player.agility + '</p> <p id="player-intellect">Intellect: ' + player.intellect + '</p> <p id="player-gold">Gold: ' + player.gold + '</p>' +
+            `<button class ="inventoryButton" id ="increaseVitalityButton" type="button" onclick="statIncrease('vitality')"> + </button>
+                 <button class ="inventoryButton" id ="increaseStrengthButton" type="button" onclick="statIncrease('strength')"> + </button>
+                 <button class ="inventoryButton" id ="increaseAgilityButton" type="button" onclick="statIncrease('agility')"> + </button>
+                 <button class ="inventoryButton" id ="increaseIntellectButton" type="button" onclick="statIncrease('intellect')"> + </button>`
+            +
+            ' </div> <span id = "abilityPane"> <img src="img/UI/actionBar.png"> </span>';
 
         // |||||| VISUAL UPDATES FOR INVENTORY AND EQUIPMENT ||||||
         // The update UI Function is called.
@@ -137,14 +142,14 @@ let GameManager = {
         let getActions = document.querySelector('.actionButton');
         let getEnemy = document.querySelector('#enemyDisplay');
         player.location = bossFight;
-        // Creating monsters to fight. (enemyType, strength, agility, intellect, vitality, expGive, gold)
+        // Creating monsters to fight. (enemyType, level, strength, agility, intellect, vitality, expGive, gold)
         // The Forest
         let enemy00 = new Enemy("Gnoll", random(1, 3), 10, 10, 0, 7, 6, 4);
         let enemy01 = new Enemy("Wolf", random(1, 3), 5, 10, 0, 8, 7, 2);
         let enemy02 = new Enemy("Goblin", random(1, 4), 10, 5, 5, 10, 8, 5);
         let enemy03 = new Enemy("Bandit", random(1, 4), 10, 15, 5, 10, 8, 9);
         let enemy04 = new Enemy("Bear", random(1, 5), 15, 5, 0, 15, 15, 5);
-        let boss01 = new Enemy("Forest Troll", 7, 25, 15, 0, 20, 35, 19);
+        let boss01 = new Enemy("Forest Troll", 7, 25, 25, 0, 20, 35, 19);
         // The Mountains
         let enemy05 = new Enemy("Escaped Convinct", random(3, 6), 15, 10, 0, 15, 6, 4);
         let enemy06 = new Enemy("Alzahz Assassin", random(4, 6), 20, 10, 0, 8, 20, 2);
@@ -235,7 +240,7 @@ let GameManager = {
         getHeader.innerHTML = '<p>Location: The Forest</p>';
 
         // Setting up PLAYER UI to fight with buttons.
-        getActions.innerHTML = '<a href="#" class="btn-prefight" onclick="PlayerMoves.calcAttack()"> Attack! </a>' +
+        getActions.innerHTML = '<a href="#" class="btn-prefight" onclick="PlayerSpells.calcAttack()"> Attack! </a>' +
                 '<a href="#" id="btn-potion" onclick="usePotion()"> Use a potion! ' + player.potions + ' </a>';
 
         // Setting up ENEMY STATSHEET
@@ -254,7 +259,8 @@ function updateUI() {
     $("#playerFrameLevelCircle").html("<p id='visualPlayerLevel'>" + player.level + "</p>");
     $("#playerFrameHealthBar").css("width", (player.health / player.maxHealth) * 209);
     $("#playerFrameExperienceBar").css("width", (player.experience / player.reqExp) * 209);
-    $(".player-health").html('Health: ' + player.health + '/' + player.maxHealth);
+    player.maxHealth = 5 * player.vitality;
+    $(".player-health").html('Health: ' + player.health + '/' + player.maxHealth + '          Mana: ' + player.mana + '/' + player.maxMana);
     $("#btn-potion").html('Use a potion! ' + player.potions);
     $("#player-armor").html('Armor: ' + player.armor);
     $("#player-strength").html('Strength: ' + player.strength);
@@ -263,6 +269,7 @@ function updateUI() {
     $("#player-intellect").html('Intellect: ' + player.intellect);
     $("#player-gold").html("Gold: " + player.gold);
     if (enemy) {
+    $("#playerFrameManaBar").css("width", (player.mana / player.maxMana) * 209);
         $(".enemy-health").html('Health: ' + enemy.health + '/' + enemy.maxHealth);
         $("#enemyVisualHealthBar").css("width", (enemy.health / enemy.maxHealth) * 209);
         if (enemy.health <= 0) {
@@ -357,6 +364,9 @@ function updateInventory() {
     }
 }
 
+/*
+Used to generate random numbers within the program.
+*/
 function random(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);

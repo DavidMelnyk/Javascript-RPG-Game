@@ -5,7 +5,8 @@ methods.
 **/
 let player;
 // Creating the player class.
-function Player(classType, name, strength, agility, intellect, vitality ) {
+class Player {
+  constructor(classType, name, strength, agility, intellect, vitality) {
     this.classType = classType;
     this.name = name;
     // Defining the the primary stats. These stats will modify the secondary stats.
@@ -53,7 +54,7 @@ function Player(classType, name, strength, agility, intellect, vitality ) {
     this.potions = 0;
     this.location = 0;
   }
-
+}
 // ||||||| This Function gives the player experience and determines if the play should level up. |||||||||
 function gainExp(expGive) {
   let modifyPlayerExp = document.querySelector('.player-exp');
@@ -72,9 +73,11 @@ function gainExp(expGive) {
 }
 
 // ||||||| This Function removes a statpoint whenever the player spends it |||||||||
-function statIncrease() {
-  if(player.statPoints >= 0) {
+function statIncrease(stat) {
+  if(player.statPoints > 0) {
+    player[stat] += 1;
     player.statPoints -= 1;
+    updateUI();
   }
 }
 
@@ -132,16 +135,22 @@ function usePotion() {
   };
 
 // ||||||| This object serves as a means of damaging the enemy. |||||||||
-      let PlayerAbilities = {
+      function playerattack(spell){
+          if (spell.damage > 0) {
+            enemy.health -= spell.damage;
+          }
+          if (spell.resourceCost > 0) {
+            player.mana -= spell.resourceCost;
+          }
+        updateUI();
+      }
 
-      };
-
-      let PlayerMoves = {
+      let PlayerSpells = {
 
         backstab: {
           name: "backstab",
           nameid: "#backstab",
-          damage: 50,
+          damage: 50 * player.agility,
           comboGeneration: 1,
           resourceCost: 25,
         },
