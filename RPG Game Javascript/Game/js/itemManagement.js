@@ -1,4 +1,4 @@
-/** David Melnyk Revised 2019/08/06
+/** David Melnyk Revised 2019/09/27
 This module serves as the host for all item related functions. This includes creating the item for generation,
 equipping the item, unequipping the item, and the inventory highlighting and sectioning functions.
 This module is related closely to itemReferences.
@@ -31,11 +31,42 @@ function createItem() {
         affixSlots = 4;
     }
 
-    let possibleAffixes = [
-     {name: "Strength", value: random(Math.floor(1 + enemy.level/2), enemy.level*2)},
-     {name: "Agility", value: random(Math.floor(1 + enemy.level/2), enemy.level*2) },
-     {name: "Vitality", value: random(Math.floor(1 + enemy.level/2), enemy.level*2) },
-     {name: "Intellect", value: random(Math.floor(1 + enemy.level/2), enemy.level*2)},
+    let possibleAffixes = [{
+            name: "Strength",
+            value: Math.floor(random(1, enemy.level * 1.4)),
+        },
+        {
+            name: "Agility",
+            value: Math.floor(random(1, enemy.level * 1.4)),
+        },
+        {
+            name: "Vitality",
+            value: Math.floor(random(1, enemy.level * 1.4)),
+        },
+        {
+            name: "Intellect",
+            value: Math.floor(random(1, enemy.level * 1.4)),
+        },
+        {
+            name: "HitRating",
+            value: Math.floor(random(1, enemy.level * 1.4)),
+        },
+        {
+            name: "CriticalStrike",
+            value: Math.floor(random(1, enemy.level * 1.4)),
+        },
+        {
+            name: "ManaRegen",
+            value: Math.floor(random(1, enemy.level * 1.4)),
+        },
+        {
+            name: "GoldFind",
+            value: Math.floor(random(1, enemy.level * 1.4)),
+        },
+        {
+            name: "SpellPower%",
+            value: Math.floor(random(1, enemy.level * 1.4)),
+        },
     ];
 
     // Attributes of the object
@@ -43,11 +74,11 @@ function createItem() {
     item.type = itemIconName; // Item Type
     // Determining which affixes to add for weapons and armor
     if (item.type == "mainHand" || item.type == "offHand") {
-        item.damageMin = 1 + Math.floor(Math.random() * Math.floor(2)) * player.level;
-        item.damageMax = item.damageMin + 2 + Math.floor(Math.random() * Math.floor(5));
+        item.damageMin = Math.floor(random(1*enemy.level, 2.0 * enemy.level));
+        item.damageMax = Math.floor(random(2.0*enemy.level, 4.0 * enemy.level));
     }
     if (item.type != "mainHand" && item.type != "offHand" && item.type != "amulet" && item.type != "ring" && item.type != "trinket" && item.type) {
-        item.armor = 1 + Math.floor(Math.random() * Math.floor(5)) * player.level;
+        item.armor = Math.floor(random(1.2*enemy.level, 3.0 * enemy.level));
     }
     item.affixes = [];
     item.reqStrength = 0;
@@ -58,7 +89,7 @@ function createItem() {
 
     // For Loop to generate and append affixes onto the object
     for (var i = 0; i < affixSlots; i++) {
-        randomAffix = Math.floor(random(0, 3));
+        randomAffix = Math.floor(random(0, possibleAffixes.length - 1));
         item.affixes.push(possibleAffixes[randomAffix]);
     }
     // For loop to iterate through the inventory and add it to a
@@ -77,7 +108,10 @@ function createItem() {
     }
 }
 
-// ||||||| This Function serves as a means of equipping the players items. |||||||||
+/* 
+    This function is used to equip an item. It checks to see if the jquery object is empty first, and if it is adds the affixes to the player stats.
+    This function also calls the hud to draw itself again.
+*/
 function equipItem() {
     var equipItem = inventory[clickedEventId]["type"];
     var item = inventory[clickedEventId];
@@ -98,20 +132,19 @@ function equipItem() {
             player[affix] += item.affixes[i].value;
         }
         player.maxHealth = 5 * player.vitality;
+        player.maxMana = 5 * player.intellect;
     } else {
         player.transfer = inventory[clickedEventId];
         inventory[clickedEventId] = player[equipItem];
         player[equipItem] = player.transfer;
-        updateUI();
-        updateEquipment();
-        updateInventory();
     }
-    updateUI();
-    updateEquipment();
-    updateInventory();
+    updateSkills();
+    GameManager.drawPlayerHUD();
 }
 
-// ||||||| This Function unequips an item from the player |||||||||
+/* 
+    This function is used to unequip an item. 
+*/
 function unequipItem() {
     var unequipSlot = clickedEventId.replace('equip', '');
     player.armor -= player[unequipSlot].armor;
@@ -140,7 +173,9 @@ function unequipItem() {
     updateEquipment();
 }
 
-// ||||||| This Function serves as a means of deleting the item from the players inventory. |||||||||
+/* 
+    This function is used to delete an item entirely.
+*/
 function deleteItem() {
     inventory[clickedEventId] = {};
     player[clickedEventId] = {};
@@ -151,7 +186,10 @@ function deleteItem() {
 }
 
 var clickedEventId = 0; // This variable just initializes the clickedEventID variable for use in selecting items.
-// Clicking on the inventory. Assigns the element ID to a variable, and highlights the selected box.
+
+/* 
+    Clicking on the inventory. Assigns the element ID to a variable, and highlights the selected box.
+*/
 $(document).on('click', '.slot', function() {
     $("#" + clickedEventId).css("border-color", "#BF942C");
     $("#" + clickedEventId).css("border-width", "1px");
@@ -164,7 +202,9 @@ $(document).on('click', '.slot', function() {
     $("#" + clickedEventId).css("border-width", "2px");
 });
 
-// Clicking on the equipment slots. These are different so it doesn't screw up the grid.
+/* 
+    Clicking on the equipment slots. These are different so it doesn't screw up the grid.
+*/
 $(document).on('click', '.equipSlot', function() {
     $("#" + clickedEventId).css("border-color", "#BF942C");
     $("#" + clickedEventId).css("border-width", "1px");
@@ -173,7 +213,3 @@ $(document).on('click', '.equipSlot', function() {
     $("#" + clickedEventId).css("border-color", "Red");
     $("#" + clickedEventId).css("border-width", "2px");
 });
-
-function firstUpperCase(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-}

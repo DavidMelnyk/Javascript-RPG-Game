@@ -1,0 +1,75 @@
+<!--  David Melnyk Revised 2019/09/27
+This module serves as the splash page for selecting your class in the game.
+From here the GameManager setStart method is called when a player selects their
+class, which leads them into battle.
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Start of the Head -->
+	<head>
+		<meta content="RPG Game" name="RPG Game">
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>Javascript RPG</title>
+
+		<!--- Importing jQuery and other Plug-ins -->
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+		<script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+		<script src="js/tooltipster-master/dist/js/tooltipster.bundle.min.js"></script>
+
+		<!--- Importing all of my Javascript Pages -->
+		<script src="js/gamemanager.js"></script>
+		<script src="js/player.js"></script>
+		<script src="js/enemy.js"></script>
+		<script src="js/itemManagement.js"> </script>
+		<script src="js/itemReferences.js"></script>
+
+		<!--- Importing all of my CSS Pages -->
+		<link rel="stylesheet" type="text/css" href="css/style.css">
+	</head>
+
+<!-- Start of the Body -->
+	<body>
+		<div id="header">
+			<h2>Select a name and choose a class!</h2>
+		</div>
+		<div id="displayInterfaces">
+			<!-- Displaying Player Selection for Warrior -->
+			<div class="playerDisplayInterface" title="">
+				<a href='#' onclick="GameManager.setGameStart('Warrior')">
+					<img alt="Warrior" src="img/avatars/warrior.jpg">
+					<div>
+						<h3>Warrior</h3>
+						<p>WORK IN PROGRESS</p>
+					</div>
+				</a>
+
+				<!-- Displaying Player Selection for Rogue -->
+				<a id="rogue" href='#' onclick="GameManager.setGameStart('Rogue')">
+					<img alt="Rogue" src="img/avatars/rogue.png">
+					<div>
+						<h3>Rogue</h3>
+						<p>Rogues are the darkness in the night. Shadows that materialize and disappear from thin air. While not as strong as their Warrior counterparts, they exploit the weakness their enemies themselves did not know. </p>
+					</div>
+				</a>
+
+				<!-- Displaying Player Selection for Mage -->
+				<a href='#' onclick="GameManager.setGameStart('Mage')">
+					<img alt="Mage" src="img/avatars/mage.jpg">
+					<div>
+						<h3>Mage</h3>
+						<p>WORK IN PROGRESS </p>
+					</div>
+				</a>
+			</div>
+			<!-- Displaying the action interface the player uses to navigate-->
+			<div class="actionButton"> </div>
+
+			<!--Generating the the Enemy's Stats Panel -->
+			<div id="enemyDisplay"> </div>
+		</div>
+	</body>
+</html>

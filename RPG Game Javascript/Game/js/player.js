@@ -1,216 +1,317 @@
-/** David Melnyk Revised 2019/08/06
-This module serves as the host for the Player class and many related functions.
-It has the PlayerClass, the attack method, the heal method, and stat statIncrease
-methods.
-**/
+/* David Melnyk Revised 2019/09/27
+    This module serves as the host for the Player class and many related functions.
+    It has the PlayerClass, the attack method, the heal method, statIncrease method, ability increase and many other functions 
+    related to the player.
+*/
 let player;
-// Creating the player class.
 class Player {
-  constructor(classType, name, strength, agility, intellect, vitality) {
-    this.classType = classType;
-    this.name = name;
-    // Defining the the primary stats. These stats will modify the secondary stats.
-    this.strength = strength;
-    this.agility = agility;
-    this.intellect = intellect;
-    this.vitality = vitality;
+    constructor(classType, name, strength, agility, intellect, vitality) {
+        this.classType = classType;
+        this.name = name;
+        // Defining the the primary stats. These stats will modify the secondary stats.
+        this.strength = strength;
+        this.agility = agility;
+        this.intellect = intellect;
+        this.vitality = vitality;
 
-    // Defining the secondary stats. These values are modified by the first.
-    this.health = 5 * this.vitality;
-    this.maxHealth = 5 * this.vitality;
-    this.mana = 5 * this.intellect;
-    this.maxMana = 5 * this.intellect;
-    this.speed = agility*2;
-    this.armor = 0;
-    this.defense = this.armor + (this.agility/10);
-    this.hitRating = 75 + (this.agility/10);
-    this.criticalStrikeChance = 15 + (this.agility/5);
+        // Defining the secondary stats. Some of these values are modified by the first.
+        this.health = 5 * this.vitality;
+        this.maxHealth = 5 * this.vitality;
+        this.mana = 5 * this.intellect;
+        this.maxMana = 5 * this.intellect;
+        this.speed = agility * 2;
+        this.armor = 0;
+        this.dodgeRating = 0;
+        this.hitrating = 0;
+        this.criticalstrike = 0;
+        this.manaregen = 15;
+        this.goldfind = 0;
+        this.spelldamage = 0;
+        this.physicaldamage = 1;
 
-    // Defining all variables for leveling the character up.
-    this.level = 1;
-    this.experience = 0;
-    this.reqExp = 15;
-    this.statPoints = 0;
+        if (this.classType == "Rogue") {
+            this.comboPoints = 0;
+        }
+        this.damage = 0;
+        this.addDamage = 0;
+        // Defining all variables for leveling the character up.
+        this.level = 1;
+        this.experience = 0;
+        this.reqExp = 15;
+        this.statPoints = 0;
+        this.abilityPoints = 1;
 
-    items: {
+        // Ability variables
+        this.basicAttack = 0;
+        this.backstab = 1;
+        this.eviscerate = 1;
+        this.poison = 1;
+        this.preparation = 1;
+        this.cunning = 1;
 
+        // Defining currently equipped items in code.
+        this.helmet = {};
+        this.chest = {};
+        this.shoulders = {};
+        this.gloves = {};
+        this.legs = {};
+        this.boots = {};
+        this.mainHand = {
+            damageMin: 2,
+            damageMax: 5,
+            quality: "Regular",
+            type: "mainHand",
+            affixes: {}
+        };
+        this.offHand = {};
+        this.ring = {};
+        this.amulet = {};
+        this.trinket = {};
+        this.belt = {};
+        this.transfer = {};
+
+        // Other variables that don't fit in with the rest.
+        this.gold = 10;
+        this.potions = 0;
+        this.location = 0;
     }
-    // Defining the variables that just don't fit in the rest.
-    this.helmet = {};
-    this.chest = {};
-    this.shoulders = {};
-    this.gloves = {};
-    this.legs = {};
-    this.boots = {};
-    this.mainHand = {};
-    this.offHand = {};
-    this.ring = {};
-    this.amulet = {};
-    this.trinket = {};
-    this.belt = {};
-    this.transfer = {};
 
-    this.gold = 10;
-    this.potions = 0;
-    this.location = 0;
-  }
-}
-// ||||||| This Function gives the player experience and determines if the play should level up. |||||||||
-function gainExp(expGive) {
-  let modifyPlayerExp = document.querySelector('.player-exp');
-  alert("You have gained " + expGive + " experience and " + enemy.gold + " gold!");
-  player.experience += expGive;
-  player.gold += enemy.gold;
-  modifyPlayerExp.innerHTML = 'Exp:' + player.experience + '/' + player.reqExp + '';
-  if (player.experience >= player.reqExp) {
-     alert("You have leveled up!");
-     player.level = player.level + 1;
-     player.statPoints += 5;
-     player.reqExp = Math.floor(player.reqExp * 2.2);
-     let modifyPlayerLevel = document.querySelector('.player-level');
-     modifyPlayerLevel.innerHTML = 'Level '+ player.level + " " + player.classType + ' ';
-  }
-}
-
-// ||||||| This Function removes a statpoint whenever the player spends it |||||||||
-function statIncrease(stat) {
-  if(player.statPoints > 0) {
-    player[stat] += 1;
-    player.statPoints -= 1;
-    updateUI();
-  }
-}
-
-function buyPotion() {
-  if(player.gold > 10) {
-    alert("You have purchased a potion!");
-    player.potions += 1;
-    player.gold -= 10;
-    updateUI();
-  } else {
-    alert("You do not have enough money!");
-  }
-}
-
-function usePotion() {
-  if (player.potions > 0) {
-    player.potions -= 1;
-    player.health += 25;
-    if(player.health > player.maxHealth) {
-      player.health = player.maxHealth;
+    /* 
+        This Function gives the player experience and determines if the play should level up. It the player does
+        level up it gives the player statpoints, ability points, and sets the new required experienced modifier.
+    */
+    gainExp(expGive) {
+        let modifyPlayerExp = document.querySelector('.player-exp');
+        $("#combatLog").prepend('<p class="combatLogText"> You have gained ' + expGive + ' experience and ' + enemy.gold + ' gold!');
+        this.experience += expGive;
+        this.gold += enemy.gold + this.goldfind;
+        modifyPlayerExp.innerHTML = 'Exp:' + this.experience + '/' + this.reqExp + '';
+        if (this.experience >= this.reqExp) {
+            alert("You have leveled up!");
+            this.level = this.level + 1;
+            this.statPoints += 5;
+            this.abilityPoints += 1;
+            this.reqExp = Math.floor(this.reqExp * 1.6);
+            updateUI();
+        }
     }
-    updateUI();
-  }
-}
 
-// ||||||| This Function serves as the players attack |||||||||
-  let playerAttack = function() {
-    let getActions = document.querySelector('.actionButton');
-    let getPlayerSpeed = player.speed;
-    let getEnemySpeed = enemy.speed;
-    let playerBaseDamage = 0 + player.strength;
-    if(player.mainHand) {
-        let playerBaseDamage = player.mainHand.damage + player.strength;
+    /* 
+        This Function removes a statpoint whenever the player spends it and increases the selected stat by one.
+    */
+    statIncrease(stat) {
+        if (this.statPoints > 0) {
+            this[stat] += 1;
+            this.statPoints -= 1;
+            updateUI();
+            updateSkills();
+        } else {
+            alert("You do not have any stat points!");
+        }
     }
-    var playerCriticalStrike = Math.floor(Math.random() * Math.floor(100)); // Critical Strike Value
 
-    if (playerCriticalStrike <= player.criticalStrikeChance) {
-       playerBaseDamage = player.strength * 2;
+    /* 
+        This function removes an ability point and increases the selected ability by one. It calls upon the relevant update functions.
+    */
+    spellIncrease(ability) {
+        if (this.abilityPoints > 0) {
+            alert("You have increased " + ability + " by one!");
+            player[ability] += 1;
+            this.abilityPoints -= 1;
+            updateUI();
+            updateSkills();
+        } else {
+            alert("You do not have any ability points!");
+        }
     }
-  // A randomization offset
-    let playerOffsetDamage = Math.floor(Math.random() * Math.floor(player.strength/5));
-  // The actual damage
-    let playerPrelimDamage = playerBaseDamage + playerOffsetDamage;
-    let playerFinalDamage = Math.floor(playerBaseDamage / (0.002 * (500+enemy.defense)));
-  // Number of hits
-    let numberOfAttacks = Math.floor(Math.random() * Math.floor(player.agility/8) + 1);
-    let finalOverallDamageArray = [playerFinalDamage, numberOfAttacks, playerCriticalStrike];
-    return finalOverallDamageArray;
-  };
 
-  let playerHeal = function() {
-    alert("You have been healed!");
-    player.health = player.maxHealth;
-    updateUI();
-  };
+    /* 
+        This function removes ten gold, and adds one potion to the player. It calls upon the relevant update functions.
+    */
+    buyPotion() {
+        if (this.gold >= 10) {
+            $("#combatLog").prepend('<p class="combatLogText"> You have purchased a potion!');
+            this.potions += 1;
+            this.gold -= 10;
+            updateUI();
+        } else {
+            alert("You do not have enough money!");
+        }
+    }
 
-// ||||||| This object serves as a means of damaging the enemy. |||||||||
-      function playerattack(spell){
-          if (spell.damage > 0) {
-            enemy.health -= spell.damage;
-          }
-          if (spell.resourceCost > 0) {
-            player.mana -= spell.resourceCost;
-          }
+    /* 
+        This function removes a potion and adds 35 health to the player. It calls upon the relevant update functions.
+    */
+    usePotion() {
+        if (this.potions > 0) {
+            this.potions -= 1;
+            this.health += 35;
+            if (this.health > this.maxHealth) {
+                this.health = this.maxHealth;
+            }
+            updateUI();
+        } else {
+            alert("You don't have any potions!");
+        }
+    }
+
+    /* 
+        This function heals the player.
+    */
+    playerHeal() {
+        $("#combatLog").prepend('<p class="combatLogText"> You have been healed!');
+        this.health = this.maxHealth;
         updateUI();
-      }
+    }
 
-      let PlayerSpells = {
+    /* 
+        This object takes a spell object in as a parameter. This object then uses that spell object to do things to the enemy dependant upon the attributes
+        of the spell called. Multile calculations are done here including the players chance to hit, the critical strike rating.
+    */
+    playerattack(spell) {
+        if (enemy) {
+            let getActions = document.querySelector('.actionButton');
+            let wpnDamage = 0;
+            if (player.mainHand.damageMin) {
+                wpnDamage = random(player.mainHand.damageMin, player.mainHand.damageMax) + this.addDamage;
+            }
+            player.damage = 0 + wpnDamage;
+            spells();
+            if (player.level >= spell.levelReq) {
+                if (this.mana >= spell.resourceCost) {
+                    if (spell.damage > 0) {
+                        var hitRating = Math.floor(75 + player.hitrating);
+                        var hitChance = Math.floor(random(1, 100));
+                        if (hitRating > hitChance) {
+                            var criticalStrikeChance = 15 + player.criticalstrike;
+                            var critical = Math.floor(random(1, 100));
+                            spell.damage = spell.damage * (player.physicaldamage)
+                            if (criticalStrikeChance > critical) {
+                                spell.damage = Math.floor(spell.damage * 1.5);
+                                $("#combatLog").prepend('<p class="combatLogText"> Your ' + spell.name + ' critically strikes the target for ' + spell.damage + '</p>');
+                            } else {
+                                $("#combatLog").prepend('<p class="combatLogText"> Your ' + spell.name + ' strikes the target for ' + spell.damage + '</p>');
+                            }
+                            enemy.health -= spell.damage;
+                    
+                        this.mana -= spell.resourceCost;
+                     } else {
+                        $("#combatLog").prepend('<p class="combatLogText"> Your ' + spell.name + ' missed! </p>');
+                     }
+                }
+                    if (spell.comboGeneration) {
+                        this.comboPoints += 1;
+                    }
+                    if (spell.comboCost) {
+                        this.comboPoints = 0;
+                    }
+                    if (spell.returnMana) {
+                        player.mana += spell.returnMana;
+                    }
+                    if (spell.addDamage) {
+                        alert("It works?");
+                        player.addDamage = spell.addDamage;
+                    }
+                } else {
+                    alert("You don't have enough mana!");
+                } 
+            } else {
+                alert("You aren't the right level for that!")
+            }
+            var enemyspells = enemySpells();
+            setTimeout(enemy.attack(enemyspells.basicAttack), 3000);
+            if (enemy.health <= 0) {
+                alert("You have won. Enemy has died");
+                this.gainExp(enemy.expGive);
+                createItem();
+                updateUI();
+                getActions.innerHTML = '<a href="#" class="btn-prefight" onclick="GameManager.startBattle()"> Fight Again! </a>';
+            }
+            this.mana += player.manaregen;
+            if (this.mana > this.maxMana) {
+                this.mana = this.maxMana;
+            }
+            updateUI();
+            updateSkills();
+        }
+    }
+}
+
+// This variable exports the spells out of the function.
+if (player) {
+    var playerspells = spells();
+}
+/* 
+    This function uses object keys as a means to define spells. It is represented inside of a function to make it easier to update
+    the spells values dynamically instead of having them be statically defined. Most spells have a defined damage which utilizes various player
+    attributes to determine the actual damage. Some spells generate combo points and some spells utilize combo points. 
+*/
+function spells() {
+    playerspells = {
+        basicAttack: {
+            name: "Basic Attack",
+            nameid: "basicAttack",
+            levelReq: 1,
+            damage: Math.floor(player.damage + player.addDamage + (player.strength / 5) + (player.agility / 5)),
+            description: "Basic attack that damages the target for " + Math.floor(player.damage + (player.strength / 5) + (player.agility / 5)),
+            resourceCost: 5,
+        },
 
         backstab: {
-          name: "backstab",
-          nameid: "#backstab",
-          damage: 50 * player.agility,
-          comboGeneration: 1,
-          resourceCost: 25,
+            name: "backstab",
+            nameid: "backstab",
+            levelReq: 1,
+            description: "Backstabs the target generating 1 combo point",
+            damage: Math.floor(5 * player.backstab + player.damage + player.addDamage + (player.strength / 3) + (player.agility / 3)),
+            comboGeneration: 1,
+            resourceCost: 25,
         },
 
         eviscerate: {
-          name: "eviscerate",
-          nameid: "#eviscerate",
-          damage: 100,
-          resourceCost: 15,
+            name: "eviscerate",
+            nameid: "eviscerate",
+            levelReq: 3,
+            description: "Backstabs the target generating 1 combo point",
+            damage: Math.floor((10 * player.eviscerate + player.damage + player.addDamage + (player.strength / 5) + (player.agility / 5)) * player.comboPoints),
+            resourceCost: 40,
+            comboCost: 1,
         },
 
-        rupture: {
-          name: "rupture",
-          nameid: "#rupture",
-          damage: 30,
-          resourceCost: 25,
+        poison: {
+            name: "poison",
+            nameid: "poison",
+            levelReq: 5,
+            description: "Coats your weapons in poison causing extra damage",
+            damage: 0,
+            addDamage: Math.floor(5 * player.poison + (player.agility / 10)),
+            resourceCost: 80,
         },
-
-        calcAttack: function() {
-        // Calculating speed requirements between enemy and player.
-          let getActions = document.querySelector('.actionButton');
-          let getPlayerSpeed = player.speed;
-          let getEnemySpeed = enemy.speed;
-          let playerBaseDamage = player.strength;
-        // PLAYER strikes the ENEMY
-          if (getPlayerSpeed >= getEnemySpeed) {
-            let playerAttackValues = playerAttack();
-            let totalDamage = (playerAttackValues[0] * playerAttackValues[1]);
-            let playerCriticalStrike = playerAttackValues[2];
-            enemy.health = enemy.health - totalDamage;
-            updateUI();
-            if (playerCriticalStrike < player.criticalStrikeChance) {
-              alert("You critically strike for " + playerAttackValues[0] + "x" + playerAttackValues[1]);
-            } else {
-            alert("You hit for " + playerAttackValues[0] + "x" + playerAttackValues[1]);
-          }
-        // If ENEMY dies Block
-            if(enemy.health <= 0) {
-              alert("You have won. Enemy has died");
-              gainExp(enemy.expGive);
-              createItem();
-              updateUI();
-              getActions.innerHTML = '<a href="#" class="btn-prefight" onclick="GameManager.startBattle()"> Fight Again! </a>';
-            } else {
-        // ENEMY strikes the PLAYER
-              let enemyAttackValues = enemyAttack();
-              let totalDamage = enemyAttackValues[0] * enemyAttackValues[1];
-              player.health = player.health - totalDamage;
-              alert("They hit you for " + enemyAttackValues[0] + "x" + enemyAttackValues[1]);
-              updateUI();
-        // IF PLAYER DIES
-              if(player.health <= 0) {
-                alert("You have died!");
-              }
-            }
-          }
+        preparation: {
+            name: "preparation",
+            nameid: "preparation",
+            levelReq: 10,
+            description: "Focus intently to restore your mana bar by " + (25 + (25 * player.preparation)),
+            damage: 0,
+            returnMana: 50 + (25 * player.preparation),
+            resourceCost: 5,
+        },
+        cunning: {
+            name: "cunning",
+            nameid: "cunning",
+            levelReq: 15,
+            description: "Deplete your mana bar to increase your dodge",
+            damage: 0,
+            addDamage: Math.floor(5 + (player.agility / 4)),
+            resourceCost: 100,
         }
-};
-// ||||||| This Function gives the player their name. |||||||||
+    };
+    return playerspells;
+}
+
+/* 
+    This function gets the name when the time comes.
+*/
 function getName() {
-  var name = window.prompt("Enter your name: ");
-  return name;
+    var name = window.prompt("Enter your name: ");
+    return name;
 }
