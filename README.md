@@ -13,3 +13,7 @@ This project will continue to be worked on for the coming months until it is in 
 There are two facets to this project which include the website portion, and the game portion. To access the game portion, go to the index.html webpage and click on 'Play!'. To learn how to play the game or about the various systems, browse the website at your leisure.
 
 Until then I hope you enjoy the project! 
+
+DISCLAIMER:
+
+I in no way own or have created any of the art or game assets used here. All code is my own, however all art belongs to their respective owners. 
