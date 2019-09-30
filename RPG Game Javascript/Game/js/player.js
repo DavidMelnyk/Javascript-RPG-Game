@@ -255,7 +255,7 @@ function passivesList() {
     passives = {
         greed: {
             name: "Greed",
-            nameid: "#greed",
+            nameid: "greed",
             levelReq: 1,
             manaRegen: 3,
             description: "You now restore an additional 3 mana at the end of every turn"
@@ -263,7 +263,7 @@ function passivesList() {
 
         frugality: {
             name: "Frugality",
-            nameid: "#frugality",
+            nameid: "frugality",
             levelReq: 2,
             abilityReduction: 5,
             description: "Your backstab now costs 5 less energy"
@@ -271,7 +271,7 @@ function passivesList() {
 
         helterskelter: {
             name: "Helter Skelter",
-            nameid: "#helterSkelter",
+            nameid: "helterskelter",
             levelReq: 5,
             confusion: true,
             description: "Your enemies attacks have a 50% chance to hit himself."
