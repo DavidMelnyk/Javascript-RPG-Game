@@ -390,7 +390,7 @@ function updateSkills() {
     }
   }
   $("#passivesSlot").html("<span id='tooltipPassive'> <h3 id='tooltipTitle'> Passive: " + player.passive.name + "</h3> <p id='passiveDescriptionText'>" + player.passive.description + "</p>" + "<p id='selectPassive'> Select a new Passive </p> </span>");
-  $("#passivesSlot").css("backgroundImage", "url(../img/icons/" + player.passive.name + ".png");
+  $("#passivesSlot").css("backgroundImage", "url(/img/icons/" + player.passive.name + ".png");
   $("#tooltipTitle").css("color", "Gold");
   $("#selectPassive").css("color", "Red");
   $("#selectPassive").css("Border", "2px solid green");
