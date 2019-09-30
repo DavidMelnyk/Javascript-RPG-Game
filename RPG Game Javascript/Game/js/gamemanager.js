@@ -6,6 +6,7 @@ in the rest of the program are also defined here.
 Providing some resources for the icons and UI which while I had to piece together but I did not create:
 https://game-icons.net/
 https://icon-library.net/icon/skill-icon-25.html
+
 */
 
 let GameManager = {
@@ -196,7 +197,7 @@ let GameManager = {
       // Creating monsters to fight. (enemyType, level, strength, agility, intellect, vitality, expGive, gold)
       // The Forest
       let enemy00 = new Enemy("Gnoll", random(1, 3), 10, 10, 4, 7, 6, 4);
-      let enemy01 = new Enemy("Wolf", random(1, 3), 5, 10, 4, 8, 7, 2);
+      let enemy01 = new Enemy("Rat", random(1, 3), 5, 10, 4, 8, 7, 2);
       let enemy02 = new Enemy("Goblin", random(1, 4), 10, 5, 5, 10, 8, 5);
       let enemy03 = new Enemy("Bandit", random(1, 4), 10, 15, 5, 10, 8, 9);
       let enemy04 = new Enemy("Bear", random(1, 5), 15, 5, 4, 15, 15, 5);
