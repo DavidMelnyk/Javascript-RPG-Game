@@ -17,3 +17,5 @@ Until then I hope you enjoy the project!
 DISCLAIMER:
 
 I in no way own or have created any of the art or game assets used here. All code is my own, however all art belongs to their respective owners. 
+
+http://cloister.se/
