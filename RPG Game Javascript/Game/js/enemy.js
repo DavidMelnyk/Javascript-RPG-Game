@@ -24,34 +24,41 @@ class Enemy {
         // Misc stats for the Enemy
         this.expGive = expGive;
         this.gold = gold;
+        this.dead = false;
     }
     attack(spell) {
         enemySpells();
         let getActions = document.querySelector('.actionButton');
         if (this.mana >= 0) {
             if (spell.damage > 0) {
+                spell.damage = Math.floor(spell.damage * (500/(500 + player.armor)));
                 this.criticalStrikeChance = 15 + (this.agility / 5);
                 var critical = Math.floor(random(1, 100));
                 if (this.criticalStrikeChance > critical) {
                     spell.damage = Math.floor(spell.damage * 1.5);
-                    $("#combatLog").prepend('<p class="combatLogText"> Their ' + spell.name + ' strikes you for ' + Math.floor(spell.damage * (500/(500 + player.armor))) + '</p>');
+                    $("#combatLog").prepend('<p class="combatLogText"> Their ' + spell.name + ' strikes you for ' + spell.damage + '</p>');
                 } else {
-                    $("#combatLog").prepend('<p class="combatLogText"> Their ' + spell.name + ' strikes you for ' + Math.floor(spell.damage * (500/(500 + player.armor))) + '</p>');
+                    $("#combatLog").prepend('<p class="combatLogText"> Their ' + spell.name + ' strikes you for ' + spell.damage + '</p>');
                 }
-                console.log(spell.damage * (500/(500 + player.armor)));
-                player.health -= Math.floor(spell.damage * (500/(500 + player.armor)));
+                player.health -= spell.damage;
             }
             if (spell.resourceCost > 0) {
                 this.mana -= spell.resourceCost;
             }
-        } else {
-            alert("You don't have enough mana!");
-        }
+            if (spell.armorIncrease > 0) {
+                this.armor += spell.armorIncrease
+                $("#combatLog").prepend('<p class="combatLogText"> The enemy raises their armor by ' + spell.armorIncrease + '</p>');
+            }
+            if (spell.heal > 0) {
+                this.health += spell.heal
+                $("#combatLog").prepend('<p class="combatLogText"> The enemy uses a potion for ' + spell.heal + '</p>');
+            }
 
+        } 
         if (player.health <= 0) {
             player.health = 0;
             alert("You have died!");
-            GameManager.setGameStart();
+            location.reload();
         }
 
         this.mana += 10;
@@ -59,6 +66,25 @@ class Enemy {
             this.mana = this.maxMana;
         }
         updateUI();
+    }
+
+    enemyAI() {
+        var enemyspells = enemySpells();
+        var randomDecision = random(1, 100);
+        var decision;
+        var stopPotion = false;
+        decision = "basicAttack";
+        if (randomDecision > 70 && this.mana >= 25) {
+            decision = "maul";
+        }
+        if(this.health/this.maxHealth < 0.2 && randomDecision > 90) {
+            decision = "potion";
+        }
+        if(this.health/this.maxHealth >= 0.5 && this.mana >= 10 && randomDecision > 60) {
+            decision = "defend";
+        } 
+        console.log(decision);
+        enemy.attack(enemyspells[decision]);
     }
 }
 
@@ -71,30 +97,47 @@ function enemySpells() {
         basicAttack: {
             name: "Basic Attack",
             nameid: "#basicAttack",
-            damage: Math.floor(5 + (enemy.agility / 4) + (enemy.strength / 4)),
+            damage: Math.floor(3 + (enemy.agility / 4) + (enemy.strength / 4)),
         },
 
         maul: {
-            name: "maul",
-            nameid: "#backstab",
+            name: "Maul",
+            nameid: "#Maul",
+            damage: Math.floor(8 + (enemy.agility / 4) + (enemy.strength / 4)),
+            resourceCost: 25,
+        },
+
+        defend: {
+            name: "Defend",
+            nameid: "#Defend",
+            armorIncrease: 50,
+            resourceCost: 25,
+        },
+        rage: {
+            name: "Rage",
+            nameid: "#Rage",
             damage: Math.floor(5 + (enemy.agility / 4) + (enemy.strength / 4)),
+            selfDamage: 10,
             resourceCost: 25,
         },
-
-        bludgeon: {
-            name: "eviscerate",
-            nameid: "#eviscerate",
-            damage: enemy.agility,
-            resourceCost: 40,
-            comboCost: 1,
-        },
-
-        rupture: {
-            name: "rupture",
-            nameid: "#rupture",
-            damage: 5,
+        exposearmor: {
+            name: "Rage",
+            nameid: "#Rage",
+            armorDestroy: 20 * player.level,
+            selfDamage: 10,
             resourceCost: 25,
         },
+        potion: {
+            name: "potion",
+            nameid: "#potion",
+            heal: 30,
+        },
+        flamestrike: {
+            name: "flamestrike",
+            nameid: "#flamestrike",
+            heal: 50,
+            resourceCost: 50,
+        }
     };
     return enemyspells;
 }

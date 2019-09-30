@@ -47,7 +47,6 @@ let GameManager = {
     calls upon all of the update UI buttons at the very end to ensure the players UI is up to date.
   */
   drawPlayerHUD: function(classType) {
-    console.log(player.classType)
       $(".playerDisplayInterface").html( 
  `
  '<span id="inventory">
@@ -131,7 +130,7 @@ let GameManager = {
     '<h3 class="player-level"> Level: ' + player.level + " " + player.classType + '</h3>' +
     '<p class="player-health">Health: ' + player.health + '/' + player.maxHealth + '</p>' +
     '<p id="player-armor"> Armor: ' + player.armor + 'Combo Points ' + player.comboPoints + '</p>' +
-    '<p class="player-exp">Exp: ' + player.experience + '/' + player.reqExp + '  StatPoints: ' + player.statPoints + '</p>' +
+    '<p id="player-experience"> Exp: ' + player.experience + '/' + player.reqExp + '  StatPoints: ' + player.statPoints + '</p>' +
     '<p id="player-vitality"> Vitality: ' + player.vitality + '</p>' +
     '<p id="player-strength">Strength: ' + player.strength + '</p>' +
     '<p id="player-agility">Agility: ' + player.agility + '</p>' +
@@ -145,7 +144,7 @@ let GameManager = {
   '</div>' +
   `<span id = "abilityPane"> +
     '<p id="abilityPointPane"> Ability Points:` + player.abilityPoints + `</p>' +
-  </span>';`
+  </span>' <span id = "passivesSlot"> </span>`
   // Creating the actionbar slots for abilities
   +
   `<span class="skillIconSlot" id="ActionBarSlot1" onclick="player.playerattack(playerspells.basicAttack)"> </span>
@@ -157,9 +156,9 @@ let GameManager = {
   // Creating the 'increase' button for abilities
   `<button class ="inventoryButton" id ="increaseBackstabButton" type="button" onclick="player.spellIncrease('backstab')"> + </button>
   <button class ="inventoryButton" id ="increaseEviscerateButton" type="button" onclick="player.spellIncrease('eviscerate')"> + </button>
-  <button class ="inventoryButton" id ="increasePoisonButton" type="button" onclick="player.statIncrease('poison')"> + </button>
-  <button class ="inventoryButton" id ="increasePreparationButton" type="button" onclick="player.statIncrease('preparation')"> + </button>
-  <button class ="inventoryButton" id ="increaseCunningButton" type="button" onclick="player.statIncrease('cunning')"> + </button>
+  <button class ="inventoryButton" id ="increasePoisonButton" type="button" onclick="player.spellIncrease('poison')"> + </button>
+  <button class ="inventoryButton" id ="increasePreparationButton" type="button" onclick="player.spellIncrease('preparation')"> + </button>
+  <button class ="inventoryButton" id ="increaseCunningButton" type="button" onclick="player.spellIncrease('cunning')"> + </button>
   ` +
   `<div id='combatLog'>  </div>` );
 
@@ -194,26 +193,26 @@ let GameManager = {
       player.location = bossFight;
       // Creating monsters to fight. (enemyType, level, strength, agility, intellect, vitality, expGive, gold)
       // The Forest
-      let enemy00 = new Enemy("Gnoll", random(1, 3), 10, 10, 0, 7, 6, 4);
-      let enemy01 = new Enemy("Wolf", random(1, 3), 5, 10, 0, 8, 7, 2);
+      let enemy00 = new Enemy("Gnoll", random(1, 3), 10, 10, 4, 7, 6, 4);
+      let enemy01 = new Enemy("Wolf", random(1, 3), 5, 10, 4, 8, 7, 2);
       let enemy02 = new Enemy("Goblin", random(1, 4), 10, 5, 5, 10, 8, 5);
       let enemy03 = new Enemy("Bandit", random(1, 4), 10, 15, 5, 10, 8, 9);
-      let enemy04 = new Enemy("Bear", random(1, 5), 15, 5, 0, 15, 15, 5);
-      let boss01 = new Enemy("Forest Troll", 7, 25, 25, 0, 20, 40, 19);
+      let enemy04 = new Enemy("Bear", random(1, 5), 15, 5, 4, 15, 15, 5);
+      let boss01 = new Enemy("Forest Troll", 7, 25, 25, 15, 20, 40, 19);
       // The Mountains
-      let enemy05 = new Enemy("Escaped Convinct", random(3, 6), 15, 10, 0, 15, 17, 4);
-      let enemy06 = new Enemy("Alzahz Assassin", random(4, 6), 20, 10, 0, 8, 20, 2);
+      let enemy05 = new Enemy("Escaped Convinct", random(3, 6), 15, 10, 10, 15, 17, 4);
+      let enemy06 = new Enemy("Alzahz Assassin", random(4, 6), 20, 10, 15, 8, 20, 2);
       let enemy07 = new Enemy("Mountain Scorpion", random(5, 8), 13, 5, 5, 10, 22, 5);
       let enemy08 = new Enemy("Alzahz Myrmidon", random(7, 9), 30, 15, 5, 10, 27, 9);
-      let enemy09 = new Enemy("The Unhinged", random(5, 10), 15, 5, 0, 20, 30, 5);
-      let boss02 = new Enemy("Syzzlac, The Gatekeeper", 15, 30, 15, 0, 50, 85, 19);
+      let enemy09 = new Enemy("The Unhinged", random(5, 10), 15, 5, 20, 20, 30, 5);
+      let boss02 = new Enemy("Syzzlac, The Gatekeeper", 15, 30, 15, 30, 50, 85, 19);
       // The Monastery
-      let enemy10 = new Enemy("Summoned Horror", random(5, 10), 10, 10, 0, 7, 24, 4);
-      let enemy11 = new Enemy("Alzahz Priest", random(6, 15), 5, 10, 0, 8, 53, 2);
+      let enemy10 = new Enemy("Summoned Horror", random(5, 10), 10, 10, 15, 7, 24, 4);
+      let enemy11 = new Enemy("Alzahz Priest", random(6, 15), 5, 10, 20, 8, 53, 2);
       let enemy12 = new Enemy("Alzahz Warrior", random(9, 15), 10, 5, 5, 10, 65, 5);
       let enemy13 = new Enemy("Dreadhound", random(15, 19), 10, 15, 5, 10, 76, 9);
-      let enemy14 = new Enemy("Alzahz Royal Guard", random(18, 22), 15, 5, 0, 15, 95, 5);
-      let boss03 = new Enemy("Dakkanar, The Crypt Dread", 25, 25, 15, 0, 10, 200, 19);
+      let enemy14 = new Enemy("Alzahz Royal Guard", random(18, 22), 15, 20, 30, 15, 95, 5);
+      let boss03 = new Enemy("Dakkanar, The Crypt Dread", 25, 25, 20, 40, 10, 200, 19);
       let chooseRandomEnemy = Math.floor(Math.random() * Math.floor(5));
       if (player.location == 0) {
           switch (chooseRandomEnemy) {
@@ -289,7 +288,7 @@ let GameManager = {
       getHeader.innerHTML = '<p> Location: The Forest </p>';
 
       // Setting up ENEMY STATSHEET
-      getEnemy.innerHTML = '<div id="enemyStatPanel"> <img class ="playerAvatar" src="img/avatars/enemyAvatar/' + enemy.enemyType.toLowerCase() + '.jpg"> <img id ="playerFrameLevelCircle" src="img/UI/playerFrameLevel.png"> <img id = "enemyVisualHealthBar" src = "img/UI/playerFrameHealthBar.png"> <img class ="playerFrameSkeleton" src="img/UI/playerFrameSkeleton.png"> <p class="playerFrameLevelNumber">' + enemy.level + ' </p> <h3>' + enemy.enemyType + '</h3><p class="enemy-health"> Health: ' + enemy.health + '/' + enemy.maxHealth + ' </p> <p>Strength: ' + enemy.strength + '</p> <p>Agility: ' + enemy.agility + '</p> <p>Intellect: ' + enemy.intellect + '</p> <p>Speed: ' + enemy.speed + '</p> </div>';
+      getEnemy.innerHTML = '<div id="enemyStatPanel"> <img class ="playerAvatar" src="img/avatars/enemyAvatar/' + enemy.enemyType.toLowerCase() + '.jpg"> <img id ="playerFrameLevelCircle" src="img/UI/playerFrameLevel.png"> <img id = "enemyVisualHealthBar" src = "img/UI/playerFrameHealthBar.png"> <img class ="playerFrameSkeleton" src="img/UI/playerFrameSkeleton.png">' + '<img id = "enemyVisualManaBar" src = "img/UI/playerFrameManaBar.png">' + '<p class="playerFrameLevelNumber">' + enemy.level + ' </p> <h3>' + enemy.enemyType + '</h3><p class="enemy-health"> Health: ' + enemy.health + '/' + enemy.maxHealth + ' Mana: ' + enemy.mana + '/' + enemy.maxMana + ' </p>  <p>Strength: ' + enemy.strength + '</p> <p>Agility: ' + enemy.agility + '</p> <p>Intellect: ' + enemy.intellect + '</p> <p>Speed: ' + enemy.speed + '</p> </div>';
   },
 };
 
@@ -299,10 +298,13 @@ let GameManager = {
 function updateUI() {
   $("#playerFrameLevelCircle").html("<p id='visualPlayerLevel'>" + player.level + "</p>");
   $("#playerFrameHealthBar").css("width", (player.health / player.maxHealth) * 209);
+  $("#playerFrameManaBar").css("width", (player.mana / player.maxMana) * 209);
   $("#playerFrameExperienceBar").css("width", (player.experience / player.reqExp) * 209);
   player.maxHealth = 5 * player.vitality;
+  player.maxMana = 5 * player.intellect;
   $(".player-health").html('Health: ' + player.health + '/' + player.maxHealth + '          Mana: ' + player.mana + '/' + player.maxMana);
   $("#player-armor").html('Armor: ' + player.armor + '    ' + 'Combo Points: ' + player.comboPoints);
+  $("#player-experience").html('Exp: ' + player.experience + '/' + player.reqExp + '  StatPoints: ' + player.statPoints);
   $("#player-strength").html('Strength: ' + player.strength);
   $("#player-vitality").html('Vitality: ' + player.vitality);
   $("#player-agility").html('Agility: ' + player.agility);
@@ -312,9 +314,11 @@ function updateUI() {
   $("#player-gold").html("Gold: " + player.gold);
   $("#abilityPointPane").html('Ability Points: ' + player.abilityPoints);
   if (enemy) {
-      $("#playerFrameManaBar").css("width", (player.mana / player.maxMana) * 209);
-      $(".enemy-health").html('Health: ' + enemy.health + '/' + enemy.maxHealth);
+      $("#enemyVisualManaBar").css("width", (enemy.mana / enemy.maxMana) * 209);
+      $(".enemy-health").html('Health: ' + enemy.health + '/' + enemy.maxHealth + '          Mana: ' + enemy.mana + '/' + enemy.maxMana);
       $("#enemyVisualHealthBar").css("width", (enemy.health / enemy.maxHealth) * 209);
+      enemy.maxHealth = 5 * enemy.vitality;
+      enemy.maxMana = 5 * enemy.intellect;
       if (enemy.health <= 0) {
           $(".enemy-health").html('Health: 0');
       }
@@ -368,12 +372,11 @@ function updateEquipment() {
   /*
     This function is used to update the players Spell Tooltips. This calls upon 'spells()' to ensure the tooltips are accurate and not old data.
   */
+ let passive;
 function updateSkills() {
   spells();
   for (var g = 1; g < 7; g++) {
-      // console.log('url(../icons/' + actionBar[g] +'.png)');
-      //$("#ActionBarSlot" + g).css("background-image", 'url(../icons/' + actionBar[g] +'.png)');
-      $("#ActionBarSlot" + g).html("<span id='tooltipActionBar" + g + "'> <h2 id='toolTipTitle" + g + "'>" + firstUpperCase(actionBar[g]) + "</h2> <p id='levelReq" + g + "'> Level Requirement: " + playerspells[actionBar[g]].levelReq+" " + "</p> <p> Level: " + player[actionBar[g]] + "</p> <p id='description" + g + "'>  " + playerspells[actionBar[g]].description +"</p><p> Damage: " + playerspells[actionBar[g]].damage + "</p> <p id='toolTipMana" + g + "'> Mana: " + playerspells[actionBar[g]].resourceCost + " </p> </span>");
+       $("#ActionBarSlot" + g).html("<span id='tooltipActionBar" + g + "'> <h2 id='toolTipTitle" + g + "'>" + firstUpperCase(actionBar[g]) + "</h2> <p id='levelReq" + g + "'> Level Requirement: " + playerspells[actionBar[g]].levelReq+" " + "</p> <p> Level: " + player[actionBar[g]] + "</p> <p id='description" + g + "'>  " + playerspells[actionBar[g]].description +"</p><p> Damage: " + playerspells[actionBar[g]].damage + "</p> <p id='toolTipMana" + g + "'> Mana: " + playerspells[actionBar[g]].resourceCost + " </p> </span>");
       $("#tooltipActionBar" + g).css("color", "Gold");
       $("#levelReq" + g ).css("color", "lightblue");
       $("#toolTipMana" + g).css("color", "lightblue");
@@ -383,6 +386,12 @@ function updateSkills() {
         $("#levelReq" + g).css("color", "Red");
     }
   }
+  var passive = passivesList();
+  passiveSet(passive["greed"]);
+  $("#passivesSlot").html("<span id='tooltipPassive'> <h3 id='tooltipTitle'> Passive: " + player.passive.name + "</h3> <p id='passiveDescriptionText'>" + player.passive.description + "</p>" + " <p> Select a new Passive (work in progress) </p> </span>");
+  $("#passivesSlot").css("backgroundImage", "url(../img/icons/" + player.passive.name + ".png");
+  $("#tooltipTitle").css("color", "Gold");
+  $("#passiveDescriptionText").css("color", "green");
 }
 
   /*

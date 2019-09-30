@@ -74,6 +74,7 @@ class Player {
         this.gold = 10;
         this.potions = 0;
         this.location = 0;
+        this.passive = {};
     }
 
     /* 
@@ -81,17 +82,16 @@ class Player {
         level up it gives the player statpoints, ability points, and sets the new required experienced modifier.
     */
     gainExp(expGive) {
-        let modifyPlayerExp = document.querySelector('.player-exp');
         $("#combatLog").prepend('<p class="combatLogText"> You have gained ' + expGive + ' experience and ' + enemy.gold + ' gold!');
         this.experience += expGive;
         this.gold += enemy.gold + this.goldfind;
-        modifyPlayerExp.innerHTML = 'Exp:' + this.experience + '/' + this.reqExp + '';
         if (this.experience >= this.reqExp) {
             alert("You have leveled up!");
             this.level = this.level + 1;
             this.statPoints += 5;
             this.abilityPoints += 1;
             this.reqExp = Math.floor(this.reqExp * 1.6);
+            this.experience = 0;
             updateUI();
         }
     }
@@ -177,9 +177,12 @@ class Player {
             }
             player.damage = 0 + wpnDamage;
             spells();
+            if(enemy.dead == false) {
             if (player.level >= spell.levelReq) {
                 if (this.mana >= spell.resourceCost) {
                     if (spell.damage > 0) {
+                        spell.damage = Math.floor(spell.damage * (500/(500 + enemy.armor)));
+                        this.mana -= spell.resourceCost;
                         var hitRating = Math.floor(75 + player.hitrating);
                         var hitChance = Math.floor(random(1, 100));
                         if (hitRating > hitChance) {
@@ -193,8 +196,6 @@ class Player {
                                 $("#combatLog").prepend('<p class="combatLogText"> Your ' + spell.name + ' strikes the target for ' + spell.damage + '</p>');
                             }
                             enemy.health -= spell.damage;
-                    
-                        this.mana -= spell.resourceCost;
                      } else {
                         $("#combatLog").prepend('<p class="combatLogText"> Your ' + spell.name + ' missed! </p>');
                      }
@@ -218,13 +219,14 @@ class Player {
             } else {
                 alert("You aren't the right level for that!")
             }
-            var enemyspells = enemySpells();
-            setTimeout(enemy.attack(enemyspells.basicAttack), 3000);
-            if (enemy.health <= 0) {
+            enemy.enemyAI();
+            if (enemy.health <= 0 && enemy.dead == false) {
+                enemy.dead = true;
                 alert("You have won. Enemy has died");
                 this.gainExp(enemy.expGive);
                 createItem();
-                updateUI();
+                player.comboPoints = 0;
+                GameManager.drawPlayerHUD();
                 getActions.innerHTML = '<a href="#" class="btn-prefight" onclick="GameManager.startBattle()"> Fight Again! </a>';
             }
             this.mana += player.manaregen;
@@ -233,14 +235,58 @@ class Player {
             }
             updateUI();
             updateSkills();
+        }else {
+            alert("The target is dead!");
         }
-    }
-}
+    } 
+   }
+
+   playerPassive(passive){
+        
+   }
+  }
 
 // This variable exports the spells out of the function.
 if (player) {
     var playerspells = spells();
 }
+
+function passivesList() {
+    passives = {
+        greed: {
+            name: "Greed",
+            nameid: "#greed",
+            levelReq: 1,
+            manaRegen: 3,
+            description: "You now restore an additional 3 mana at the end of every turn"
+        },
+
+        frugality: {
+            name: "Frugality",
+            nameid: "#frugality",
+            levelReq: 2,
+            abilityReduction: 5,
+            description: "Your backstab now costs 5 less energy"
+        },
+
+        helterSkelter: {
+            name: "Helter Skelter",
+            nameid: "#helterSkelter",
+            levelReq: 5,
+            confusion: true,
+            description: "Your enemies attacks have a 50% chance to hit himself."
+        } 
+    }
+    return passives;
+}
+
+function passiveSet(passive) {
+    player.passive = passive;
+    if(passive.manaRegen > 0) {
+        player.manaregen += 3;
+    }
+}
+
 /* 
     This function uses object keys as a means to define spells. It is represented inside of a function to make it easier to update
     the spells values dynamically instead of having them be statically defined. Most spells have a defined damage which utilizes various player
@@ -261,17 +307,17 @@ function spells() {
             name: "backstab",
             nameid: "backstab",
             levelReq: 1,
-            description: "Backstabs the target generating 1 combo point",
+            description: "Backstabs the target for " + Math.floor(5 * player.backstab + player.damage + player.addDamage + (player.strength / 3) + (player.agility / 3)) + " generating 1 combo point",
             damage: Math.floor(5 * player.backstab + player.damage + player.addDamage + (player.strength / 3) + (player.agility / 3)),
             comboGeneration: 1,
-            resourceCost: 25,
+            resourceCost: 30,
         },
 
         eviscerate: {
             name: "eviscerate",
             nameid: "eviscerate",
             levelReq: 3,
-            description: "Backstabs the target generating 1 combo point",
+            description: "Eviscerates the target for " + Math.floor((10 * player.eviscerate + player.damage + player.addDamage + (player.strength / 5) + (player.agility / 5)) * player.comboPoints),
             damage: Math.floor((10 * player.eviscerate + player.damage + player.addDamage + (player.strength / 5) + (player.agility / 5)) * player.comboPoints),
             resourceCost: 40,
             comboCost: 1,
@@ -281,7 +327,7 @@ function spells() {
             name: "poison",
             nameid: "poison",
             levelReq: 5,
-            description: "Coats your weapons in poison causing extra damage",
+            description: "Coats your weapons in poison causing " + Math.floor(5 * player.poison + (player.agility / 10)) + " extra damage",
             damage: 0,
             addDamage: Math.floor(5 * player.poison + (player.agility / 10)),
             resourceCost: 80,
