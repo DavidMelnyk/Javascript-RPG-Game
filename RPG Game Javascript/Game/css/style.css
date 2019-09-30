@@ -418,14 +418,11 @@ body {
   display: none;
 }
 
-#passivesSlot:focus {
- border: 1px solid red;
-}
-
 #passivesSlot span {
   display: none;
   text-align: center;
 }
+
 #passivesSlot:hover span {
   display: block;
   top: 80px;
@@ -439,6 +436,35 @@ body {
   border: 1px solid silver;
   opacity: 0.93;
 }
+#selectPassive:focus {
+  height: 60px;
+  background-color: green;
+}
+#selectPassive:focus div {
+  display: none;
+  text-align: center;
+}
+
+#selectPassive:hover div {
+  display: block;
+  top: 115px;
+  width: 400px;
+  padding: 5px;
+  height: 160px;
+  background-color: black;
+  color: white;
+  position: absolute;
+  z-index: 30;
+  border: 1px solid silver;
+  opacity: 0.93;
+}
+
+#passiveList img {
+  height: 70px;
+  width: 70px;
+  background-color: red;
+}
+
 /* Start of the Player's HUD. */
 
 #statPanel {

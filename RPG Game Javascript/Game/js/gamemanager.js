@@ -35,6 +35,8 @@ let GameManager = {
               break;
           case "Rogue":
               player = new Player(classType, name, 25, 20, 20, 20);
+              var passive = passivesList();
+              passiveSet(passive["greed"]);
               break;
           case "Mage":
               player = new Player(classType, name, 10, 16, 20, 15);
@@ -386,14 +388,26 @@ function updateSkills() {
         $("#levelReq" + g).css("color", "Red");
     }
   }
-  var passive = passivesList();
-  passiveSet(passive["greed"]);
-  $("#passivesSlot").html("<span id='tooltipPassive'> <h3 id='tooltipTitle'> Passive: " + player.passive.name + "</h3> <p id='passiveDescriptionText'>" + player.passive.description + "</p>" + " <p> Select a new Passive (work in progress) </p> </span>");
+  $("#passivesSlot").html("<span id='tooltipPassive'> <h3 id='tooltipTitle'> Passive: " + player.passive.name + "</h3> <p id='passiveDescriptionText'>" + player.passive.description + "</p>" + "<p id='selectPassive'> Select a new Passive </p> </span>");
   $("#passivesSlot").css("backgroundImage", "url(../img/icons/" + player.passive.name + ".png");
   $("#tooltipTitle").css("color", "Gold");
+  $("#selectPassive").css("color", "Red");
+  $("#selectPassive").css("Border", "2px solid green");
   $("#passiveDescriptionText").css("color", "green");
+  $("#selectPassive").html("Select a passive! <div id='passiveList'>" + 
+  "<img src= '../img/icons/helterskelter.png'/>" + constructPassivesList() +"</div>");
 }
 
+function constructPassivesList() {
+  var arrayList = [];
+  var passive = passivesList();
+  console.log(passive)
+  for(i=0; i < passive.length; i++) {
+    a =  "<img id='HelterSkelterPassive' src= '../img/icons/helterskelter.png'/>";
+    arrayList.push(a);
+  }
+  return arrayList;
+}
   /*
     This function is used to update the inventory pane.
   */

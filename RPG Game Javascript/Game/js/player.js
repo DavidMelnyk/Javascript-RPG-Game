@@ -269,7 +269,7 @@ function passivesList() {
             description: "Your backstab now costs 5 less energy"
         },
 
-        helterSkelter: {
+        helterskelter: {
             name: "Helter Skelter",
             nameid: "#helterSkelter",
             levelReq: 5,
