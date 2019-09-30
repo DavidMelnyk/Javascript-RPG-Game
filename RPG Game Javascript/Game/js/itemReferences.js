@@ -43,4 +43,6 @@ var inventory = {
 // The actionbar represented by a single array. In the future when abilities are swapped and added it will use this array to perform the swaps.
 var actionBar = [null, "basicAttack", "backstab", "eviscerate", "poison", "preparation", "cunning"];
 
-var enemyBar = [null, "Basic Attack", "maul", ]
+var enemyBar = [null, "Basic Attack", "maul", ];
+
+var roguePassiveList = [null, "greed", "frugality", "helterskelter"];
