@@ -118,9 +118,11 @@ let GameManager = {
    <span id="inventyButtonBox">
    </span>
  </span>` +
+ '<span id="inventoryButtonSelection">' +
   `<button class ="inventoryButton" type="button" onclick="equipItem()"> Equip </button>
   <button class ="inventoryButton" type="button" onclick="unequipItem()"> Unequip </button>
   <button class ="inventoryButton" type="button" onclick="deleteItem()"> Delete </button> ` +
+  '</span>' +
     // Creating the entirety of the Stat Panel including the visuals
   '<div id="statPanel">  <img class ="playerAvatar" src="img/avatars/' + player.classType.toLowerCase() + '.jpg">' +
     '<img id = "playerFrameHealthBar" src = "img/UI/playerFrameHealthBar.png">' +
@@ -390,7 +392,7 @@ function updateSkills() {
     }
   }
   $("#passivesSlot").html("<span id='tooltipPassive'> <h3 id='tooltipTitle'> Passive: " + player.passive.name + "</h3> <p id='passiveDescriptionText'>" + player.passive.description + "</p>" + "<p id='selectPassive'> Select a new Passive </p> </span>");
-  $("#passivesSlot").css("backgroundImage", "url(/img/icons/" + player.passive.name + ".png");
+  $("#passivesSlot").css("background-image", "url('img/icons/" + player.passive.name + ".png'");
   $("#tooltipTitle").css("color", "Gold");
   $("#selectPassive").css("color", "Red");
   $("#selectPassive").css("Border", "2px solid green");

@@ -183,10 +183,15 @@ body {
   background-repeat: no-repeat;
 }
 
+#inventoryButtonSelection {
+  position: absolute;
+  top: 680px;
+  left: 130px;
+}
+
 .inventoryButton {
   width: 60px;
   height: 50px;
-  position: relative;
   bottom: 0;
   color: #BF942C;
   font-weight: bold;
@@ -401,8 +406,8 @@ body {
 }
 #passivesSlot {
   position: absolute;
-  left: 600px;
-  top: 250px;
+  left: 1100px;
+  top: 450px;
   width: 80px;
   height: 80px;
   background-image:url('../img/UI/passives.png');
